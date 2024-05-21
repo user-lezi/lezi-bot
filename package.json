@@ -1,0 +1,25 @@
+{
+  "name": "lezi-bot",
+  "version": "1.0.0",
+  "description": "Bot",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "main": "npm run build && node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/user-lezi/lezi-bot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/user-lezi/lezi-bot/issues"
+  },
+  "homepage": "https://github.com/user-lezi/lezi-bot#readme",
+  "devDependencies": {
+    "@types/node": "^20.12.12",
+    "discord.js": "^14.15.2",
+    "typescript": "^5.4.5"
+  }
+}
