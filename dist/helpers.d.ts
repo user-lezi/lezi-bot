@@ -22,6 +22,9 @@ export interface SlashData {
     data: SlashCommandBuilder;
     execute: (ctx: Context) => Promise<unknown>;
     autocomplete?: (interaction: AutocompleteInteraction) => Promise<unknown>;
+    metadata?: {
+        [key: string]: any;
+    };
 }
 export declare function handleSlashCommands(): Collection<string, SlashData>;
 export declare function registerCommands(commands: Collection<string, SlashData>, client: Client<true>): Promise<void>;

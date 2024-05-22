@@ -58,6 +58,7 @@ export interface SlashData {
   data: SlashCommandBuilder;
   execute: (ctx: Context) => Promise<unknown>;
   autocomplete?: (interaction: AutocompleteInteraction) => Promise<unknown>;
+  metadata?: { [key: string]: any };
 }
 export function handleSlashCommands() {
   const commandFiles = readdirSync(join(__dirname, "commands")).filter(

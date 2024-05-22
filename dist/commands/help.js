@@ -2,6 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
 exports.default = {
+    metadata: {
+        category: "Bot",
+        description: '"/help" command is divided into two subcommands: "/help commandlist" and "help command"\n- "/help commandlist" displays the list of commands that are available.\n- "/help command" displays the information for the specific command that user provides the input for.',
+    },
     data: new discord_js_1.SlashCommandBuilder()
         .setName("help")
         .setDescription("Need help?")
@@ -31,6 +35,8 @@ exports.default = {
                             id: cmd.id,
                             name: [cmd.name, subcommand.name].join(" "),
                             shortDescription: subcommand.description,
+                            longDescription: ctx.commands.get(cmd.name)?.metadata?.description ||
+                                "*No Description Has Been Found*",
                         });
                     }
                     continue;
@@ -39,9 +45,14 @@ exports.default = {
                     id: cmd.id,
                     name: cmd.name,
                     shortDescription: cmd.description,
+                    longDescription: ctx.commands.get(cmd.name)?.metadata?.description ||
+                        "*No Description Has Been Found*",
                 });
             }
-            const footer = `> Check out ${(0, discord_js_1.bold)((0, discord_js_1.hyperlink)("GitHub", "https://github.com/user-lezi/lezi-bot"))}`;
+            const footer = [
+                `> Check out ${(0, discord_js_1.bold)((0, discord_js_1.hyperlink)("GitHub", "https://github.com/user-lezi/lezi-bot"))}.`,
+                `> ${(0, discord_js_1.bold)((0, discord_js_1.hyperlink)("Invite", "https://discord.com/oauth2/authorize?client_id=1242474432119836683&permissions=0&scope=bot+applications.commands"))} the bot to your server.`,
+            ].join("\n");
             const embed = new discord_js_1.EmbedBuilder()
                 .setTitle("Here Is The Command List")
                 .setColor(ctx.config.colors.main)
@@ -78,6 +89,8 @@ exports.default = {
                     id: command.id,
                     name: [command.name, subcommandData.name].join(" "),
                     shortDescription: subcommandData.description,
+                    longDescription: ctx.commands.get(command.name)?.metadata?.description ||
+                        "*No Description Has Been Found*",
                 };
             }
             else {
@@ -85,11 +98,14 @@ exports.default = {
                     id: command.id,
                     name: command.name,
                     shortDescription: command.description,
+                    longDescription: ctx.commands.get(command.name)?.metadata?.description ||
+                        "*No Description Has Been Found*",
                 };
             }
             let embed = new discord_js_1.EmbedBuilder()
                 .setColor(ctx.config.colors.main)
                 .setTitle(`Command Info`)
+                .setDescription(cmd.longDescription)
                 .addFields({ name: "Name:", value: `</${cmd.name}:${cmd.id}>` }, { name: "Description:", value: cmd.shortDescription });
             let githubUrl = `https://github.com/user-lezi/lezi-bot/blob/main/src/commands/${cmd.name.split(" ")[0]}.ts`;
             let components = new discord_js_1.ActionRowBuilder().addComponents(new discord_js_1.ButtonBuilder()

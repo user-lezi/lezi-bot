@@ -13,9 +13,15 @@ interface Command {
   id: string;
   name: string;
   shortDescription: string;
+  longDescription: string;
 }
 
 export default {
+  metadata: {
+    category: "Bot",
+    description:
+      '"/help" command is divided into two subcommands: "/help commandlist" and "help command"\n- "/help commandlist" displays the list of commands that are available.\n- "/help command" displays the information for the specific command that user provides the input for.',
+  },
   data: new SlashCommandBuilder()
     .setName("help")
     .setDescription("Need help?")
@@ -52,17 +58,26 @@ export default {
               id: cmd.id,
               name: [cmd.name, subcommand.name].join(" "),
               shortDescription: subcommand.description,
+              longDescription:
+                ctx.commands.get(cmd.name)?.metadata?.description ||
+                "*No Description Has Been Found*",
             });
           }
           continue;
         }
         commands.push({
-          id: cmd!.id,
-          name: cmd!.name,
-          shortDescription: cmd!.description,
+          id: cmd.id,
+          name: cmd.name,
+          shortDescription: cmd.description,
+          longDescription:
+            ctx.commands.get(cmd.name)?.metadata?.description ||
+            "*No Description Has Been Found*",
         });
       }
-      const footer = `> Check out ${bold(hyperlink("GitHub", "https://github.com/user-lezi/lezi-bot"))}`;
+      const footer = [
+        `> Check out ${bold(hyperlink("GitHub", "https://github.com/user-lezi/lezi-bot"))}.`,
+        `> ${bold(hyperlink("Invite", "https://discord.com/oauth2/authorize?client_id=1242474432119836683&permissions=0&scope=bot+applications.commands"))} the bot to your server.`,
+      ].join("\n");
       const embed = new EmbedBuilder()
         .setTitle("Here Is The Command List")
         .setColor(ctx.config.colors.main)
@@ -111,18 +126,25 @@ export default {
           id: command.id,
           name: [command.name, subcommandData.name].join(" "),
           shortDescription: subcommandData.description,
+          longDescription:
+            ctx.commands.get(command.name)?.metadata?.description ||
+            "*No Description Has Been Found*",
         } as Command;
       } else {
         cmd = {
           id: command.id,
           name: command.name,
           shortDescription: command.description,
+          longDescription:
+            ctx.commands.get(command.name)?.metadata?.description ||
+            "*No Description Has Been Found*",
         } as Command;
       }
 
       let embed = new EmbedBuilder()
         .setColor(ctx.config.colors.main)
         .setTitle(`Command Info`)
+        .setDescription(cmd.longDescription)
         .addFields(
           { name: "Name:", value: `</${cmd.name}:${cmd.id}>` },
           { name: "Description:", value: cmd.shortDescription },
