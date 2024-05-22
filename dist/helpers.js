@@ -6,7 +6,7 @@ async function getBotStats(client) {
     const users = client.users.cache.size;
     return {
         guilds,
-        users
+        users,
     };
 }
 exports.getBotStats = getBotStats;

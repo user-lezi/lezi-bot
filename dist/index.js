@@ -8,12 +8,12 @@ const client = new discord_js_1.Client({
         discord_js_1.GatewayIntentBits.Guilds,
         discord_js_1.GatewayIntentBits.GuildMessages,
         discord_js_1.GatewayIntentBits.GuildMembers,
-        discord_js_1.GatewayIntentBits.MessageContent
+        discord_js_1.GatewayIntentBits.MessageContent,
     ],
     presence: {
         status: "online",
-        afk: true
-    }
+        afk: true,
+    },
 });
 Reflect.set(discord_js_1.DefaultWebSocketManagerOptions.identifyProperties, "browser", "Discord iOS");
 client.on(discord_js_1.Events.ClientReady, async function (readyClient) {
@@ -44,42 +44,80 @@ client.on(discord_js_1.Events.MessageCreate, async function (message) {
     let embeds = [];
     for (let i = 0; i < outputChunks.length; i++) {
         let chunk = outputChunks[i];
-        let embed = new discord_js_1.EmbedBuilder().setColor(0x313336).setTitle("Evaluated").setFooter({ text: `Page ${i + 1}/${outputChunks.length} • ${outputString.length} • ${typeof outputCode}` }).setDescription((0, discord_js_1.codeBlock)("js", chunk));
+        let embed = new discord_js_1.EmbedBuilder()
+            .setColor(0x313336)
+            .setTitle("Evaluated")
+            .setFooter({
+            text: `Page ${i + 1}/${outputChunks.length} • ${outputString.length} • ${typeof outputCode}`,
+        })
+            .setDescription((0, discord_js_1.codeBlock)("js", chunk));
         embeds.push(embed);
     }
     function addComponents(...available) {
         return [
-            new discord_js_1.ActionRowBuilder()
-                .addComponents(new discord_js_1.ButtonBuilder().setEmoji("⏪").setCustomId("first").setStyle(discord_js_1.ButtonStyle.Secondary).setDisabled(available[0]), new discord_js_1.ButtonBuilder().setEmoji("◀️").setCustomId("previous").setStyle(discord_js_1.ButtonStyle.Secondary).setDisabled(available[1]), new discord_js_1.ButtonBuilder().setEmoji("🗑️").setCustomId("delete").setStyle(discord_js_1.ButtonStyle.Danger).setDisabled(available[2]), new discord_js_1.ButtonBuilder().setEmoji("▶️").setCustomId("next").setStyle(discord_js_1.ButtonStyle.Secondary).setDisabled(available[3]), new discord_js_1.ButtonBuilder().setEmoji("⏩").setCustomId("last").setStyle(discord_js_1.ButtonStyle.Secondary).setDisabled(available[4]))
+            new discord_js_1.ActionRowBuilder().addComponents(new discord_js_1.ButtonBuilder()
+                .setEmoji("⏪")
+                .setCustomId("first")
+                .setStyle(discord_js_1.ButtonStyle.Secondary)
+                .setDisabled(available[0]), new discord_js_1.ButtonBuilder()
+                .setEmoji("◀️")
+                .setCustomId("previous")
+                .setStyle(discord_js_1.ButtonStyle.Secondary)
+                .setDisabled(available[1]), new discord_js_1.ButtonBuilder()
+                .setEmoji("🗑️")
+                .setCustomId("delete")
+                .setStyle(discord_js_1.ButtonStyle.Danger)
+                .setDisabled(available[2]), new discord_js_1.ButtonBuilder()
+                .setEmoji("▶️")
+                .setCustomId("next")
+                .setStyle(discord_js_1.ButtonStyle.Secondary)
+                .setDisabled(available[3]), new discord_js_1.ButtonBuilder()
+                .setEmoji("⏩")
+                .setCustomId("last")
+                .setStyle(discord_js_1.ButtonStyle.Secondary)
+                .setDisabled(available[4])),
         ];
     }
-    let evalMessage = await message.reply({ embeds: [embeds[0]], components: addComponents(true, true, false, embeds.length == 1, embeds.length == 1) });
+    let evalMessage = await message.reply({
+        embeds: [embeds[0]],
+        components: addComponents(true, true, false, embeds.length == 1, embeds.length == 1),
+    });
     let collector = evalMessage.createMessageComponentCollector({
         componentType: discord_js_1.ComponentType.Button,
-        time: 45_000
+        time: 45_000,
     });
     collector.on("collect", async function (interaction) {
         if (interaction.user.id !== message.author.id) {
             return await interaction.reply({
                 content: `Only for ${message.author}!`,
-                ephemeral: true
+                ephemeral: true,
             });
         }
-        ;
         interaction.deferUpdate().catch(() => { });
         if (interaction.customId == "delete") {
             return await evalMessage.delete().catch(() => { });
         }
-        currentIndex = interaction.customId === "first" ? 0 : interaction.customId === "previous" ? currentIndex - 1 : interaction.customId === "next" ? currentIndex + 1 : interaction.customId === "last" ? embeds.length - 1 : currentIndex;
+        currentIndex =
+            interaction.customId === "first"
+                ? 0
+                : interaction.customId === "previous"
+                    ? currentIndex - 1
+                    : interaction.customId === "next"
+                        ? currentIndex + 1
+                        : interaction.customId === "last"
+                            ? embeds.length - 1
+                            : currentIndex;
         await evalMessage.edit({
             embeds: [embeds[currentIndex]],
-            components: addComponents(currentIndex === 0, currentIndex === 0, false, currentIndex === embeds.length - 1, currentIndex === embeds.length - 1)
+            components: addComponents(currentIndex === 0, currentIndex === 0, false, currentIndex === embeds.length - 1, currentIndex === embeds.length - 1),
         });
     });
     collector.on("end", async function () {
-        await evalMessage.edit({
-            components: addComponents(true, true, true, true, true)
-        }).catch(() => { });
+        await evalMessage
+            .edit({
+            components: addComponents(true, true, true, true, true),
+        })
+            .catch(() => { });
     });
 });
 client.login(process.env.BotToken);
