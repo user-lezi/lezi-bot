@@ -1,10 +1,13 @@
 import {
+  AutocompleteInteraction,
+  BaseChannel,
   Client,
   Collection,
   CommandInteraction,
   SlashCommandBuilder,
   REST,
   Routes,
+  User,
 } from "discord.js";
 import { readdirSync } from "fs";
 import { join } from "path";
@@ -17,14 +20,43 @@ export async function getBotStats(client: Client) {
     users,
   };
 }
+export class Context {
+  config: any;
+  constructor(
+    public interaction: CommandInteraction,
+    public command: SlashData,
+    public commands: Collection<string, SlashData>,
+  ) {
+    this.config = {
+      colors: {
+        main: 0xff8080,
+      },
+    };
+  }
 
-interface SlashData {
+  get client(): Client<true> {
+    return this.interaction.client;
+  }
+  get application() {
+    return this.client.application;
+  }
+  get guild() {
+    return this.interaction.guild;
+  }
+  get channel() {
+    return this.interaction.channel;
+  }
+  get user() {
+    return this.interaction.user;
+  }
+  get applicationCommand() {
+    return this.interaction.command;
+  }
+}
+export interface SlashData {
   data: SlashCommandBuilder;
-  execute: (
-    client: Client,
-    interaction: CommandInteraction,
-    command: SlashData,
-  ) => Promise<unknown>;
+  execute: (ctx: Context) => Promise<unknown>;
+  autocomplete?: (interaction: AutocompleteInteraction) => Promise<unknown>;
 }
 export function handleSlashCommands() {
   const commandFiles = readdirSync(join(__dirname, "commands")).filter(

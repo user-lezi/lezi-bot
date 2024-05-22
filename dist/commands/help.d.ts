@@ -1,7 +1,9 @@
-import { Client, CommandInteraction, SlashCommandBuilder } from "discord.js";
+import { AutocompleteInteraction } from "discord.js";
+import { Context } from "../helpers";
 declare const _default: {
-    data: SlashCommandBuilder;
-    execute(client: Client, interaction: CommandInteraction): Promise<void>;
+    data: import("discord.js").SlashCommandSubcommandsOnlyBuilder;
+    execute(ctx: Context): Promise<import("discord.js").InteractionResponse<boolean> | undefined>;
+    autocomplete(interaction: AutocompleteInteraction): Promise<void>;
 };
 export default _default;
 //# sourceMappingURL=help.d.ts.map

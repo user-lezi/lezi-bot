@@ -20,6 +20,8 @@ const commands = (0, helpers_1.handleSlashCommands)();
 client.on(discord_js_1.Events.ClientReady, async function (readyClient) {
     await (0, helpers_1.registerCommands)(commands, readyClient);
     console.log(`${readyClient.user.tag} is ready!!`);
+    await client.application?.fetch();
+    await client.application?.commands?.fetch();
     let stats = await (0, helpers_1.getBotStats)(readyClient);
     console.log(`Guilds: ${stats.guilds}, Users: ${stats.users}`);
 });
@@ -123,11 +125,20 @@ client.on(discord_js_1.Events.MessageCreate, async function (message) {
     });
 });
 client.on(discord_js_1.Events.InteractionCreate, async function (interaction) {
-    if (interaction.isCommand()) {
+    if (interaction.isChatInputCommand()) {
+        if (interaction.isCommand()) {
+            let command = commands.get(interaction.commandName);
+            if (!command)
+                return;
+            let ctx = new helpers_1.Context(interaction, command, commands);
+            await command.execute(ctx);
+        }
+    }
+    else if (interaction.isAutocomplete()) {
         let command = commands.get(interaction.commandName);
         if (!command)
             return;
-        await command.execute(interaction.client, interaction, command);
+        await command.autocomplete?.(interaction);
     }
 });
 client.login(process.env.BotToken);

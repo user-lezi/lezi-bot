@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.registerCommands = exports.handleSlashCommands = exports.getBotStats = void 0;
+exports.registerCommands = exports.handleSlashCommands = exports.Context = exports.getBotStats = void 0;
 const discord_js_1 = require("discord.js");
 const fs_1 = require("fs");
 const path_1 = require("path");
@@ -13,6 +13,41 @@ async function getBotStats(client) {
     };
 }
 exports.getBotStats = getBotStats;
+class Context {
+    interaction;
+    command;
+    commands;
+    config;
+    constructor(interaction, command, commands) {
+        this.interaction = interaction;
+        this.command = command;
+        this.commands = commands;
+        this.config = {
+            colors: {
+                main: 0xff8080,
+            },
+        };
+    }
+    get client() {
+        return this.interaction.client;
+    }
+    get application() {
+        return this.client.application;
+    }
+    get guild() {
+        return this.interaction.guild;
+    }
+    get channel() {
+        return this.interaction.channel;
+    }
+    get user() {
+        return this.interaction.user;
+    }
+    get applicationCommand() {
+        return this.interaction.command;
+    }
+}
+exports.Context = Context;
 function handleSlashCommands() {
     const commandFiles = (0, fs_1.readdirSync)((0, path_1.join)(__dirname, "commands")).filter((file) => file.endsWith(".js"));
     const commands = new discord_js_1.Collection();
