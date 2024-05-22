@@ -1,6 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getBotStats = void 0;
+exports.registerCommands = exports.handleSlashCommands = exports.getBotStats = void 0;
+const discord_js_1 = require("discord.js");
+const fs_1 = require("fs");
+const path_1 = require("path");
 async function getBotStats(client) {
     const guilds = client.guilds.cache.size;
     const users = client.users.cache.size;
@@ -10,4 +13,28 @@ async function getBotStats(client) {
     };
 }
 exports.getBotStats = getBotStats;
+function handleSlashCommands() {
+    const commandFiles = (0, fs_1.readdirSync)((0, path_1.join)(__dirname, "commands")).filter((file) => file.endsWith(".js"));
+    const commands = new discord_js_1.Collection();
+    for (const file of commandFiles) {
+        const command = require((0, path_1.join)(__dirname, "commands", file)).default;
+        commands.set(command.data.name, command);
+        console.log(`- Loaded command /${command.data.name}`);
+    }
+    return commands;
+}
+exports.handleSlashCommands = handleSlashCommands;
+async function registerCommands(commands, client) {
+    let clientId = client.user.id;
+    const rest = new discord_js_1.REST().setToken(client.token);
+    const body = [];
+    commands.forEach((command) => {
+        body.push(command.data.toJSON());
+    });
+    let data = (await rest.put(discord_js_1.Routes.applicationCommands(clientId), {
+        body,
+    }));
+    console.log(`# Registered ${data.length} commands`);
+}
+exports.registerCommands = registerCommands;
 //# sourceMappingURL=helpers.js.map

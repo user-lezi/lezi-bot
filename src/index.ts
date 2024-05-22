@@ -1,6 +1,7 @@
 import {
   codeBlock,
   ActionRowBuilder,
+  BaseInteraction,
   ButtonBuilder,
   ButtonInteraction,
   ButtonStyle,
@@ -13,7 +14,7 @@ import {
   Message,
 } from "discord.js";
 import { inspect } from "util";
-import { getBotStats } from "./helpers";
+import { getBotStats, handleSlashCommands, registerCommands } from "./helpers";
 
 const client = new Client({
   intents: [
@@ -34,7 +35,11 @@ Reflect.set(
   "Discord iOS",
 );
 
+/* Handling Slash Commands */
+const commands = handleSlashCommands();
+
 client.on(Events.ClientReady, async function (readyClient: Client<true>) {
+  await registerCommands(commands, readyClient);
   console.log(`${readyClient.user.tag} is ready!!`);
 
   let stats = await getBotStats(readyClient);
@@ -162,5 +167,17 @@ client.on(Events.MessageCreate, async function (message: Message) {
       .catch(() => {});
   });
 });
+
+/* Handler for slash commands */
+client.on(
+  Events.InteractionCreate,
+  async function (interaction: BaseInteraction) {
+    if (interaction.isCommand()) {
+      let command = commands.get(interaction.commandName);
+      if (!command) return;
+      await command.execute(interaction.client, interaction, command);
+    }
+  },
+);
 
 client.login(process.env.BotToken);

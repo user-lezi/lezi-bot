@@ -16,7 +16,9 @@ const client = new discord_js_1.Client({
     },
 });
 Reflect.set(discord_js_1.DefaultWebSocketManagerOptions.identifyProperties, "browser", "Discord iOS");
+const commands = (0, helpers_1.handleSlashCommands)();
 client.on(discord_js_1.Events.ClientReady, async function (readyClient) {
+    await (0, helpers_1.registerCommands)(commands, readyClient);
     console.log(`${readyClient.user.tag} is ready!!`);
     let stats = await (0, helpers_1.getBotStats)(readyClient);
     console.log(`Guilds: ${stats.guilds}, Users: ${stats.users}`);
@@ -119,6 +121,14 @@ client.on(discord_js_1.Events.MessageCreate, async function (message) {
         })
             .catch(() => { });
     });
+});
+client.on(discord_js_1.Events.InteractionCreate, async function (interaction) {
+    if (interaction.isCommand()) {
+        let command = commands.get(interaction.commandName);
+        if (!command)
+            return;
+        await command.execute(interaction.client, interaction, command);
+    }
 });
 client.login(process.env.BotToken);
 //# sourceMappingURL=index.js.map
