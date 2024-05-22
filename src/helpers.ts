@@ -1,9 +1,10 @@
 import {
   AutocompleteInteraction,
-  BaseChannel,
+  TextBasedChannel,
   Client,
   Collection,
   CommandInteraction,
+  Guild,
   SlashCommandBuilder,
   REST,
   Routes,
@@ -41,13 +42,13 @@ export class Context {
     return this.client.application;
   }
   get guild() {
-    return this.interaction.guild;
+    return this.interaction.guild as Guild;
   }
   get channel() {
-    return this.interaction.channel;
+    return this.interaction.channel as TextBasedChannel;
   }
   get user() {
-    return this.interaction.user;
+    return this.interaction.user as User;
   }
   get applicationCommand() {
     return this.interaction.command;

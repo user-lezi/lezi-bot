@@ -93,7 +93,7 @@ exports.default = {
                 .addFields({ name: "Name:", value: `</${cmd.name}:${cmd.id}>` }, { name: "Description:", value: cmd.shortDescription });
             let githubUrl = `https://github.com/user-lezi/lezi-bot/blob/main/src/commands/${cmd.name.split(" ")[0]}.ts`;
             let components = new discord_js_1.ActionRowBuilder().addComponents(new discord_js_1.ButtonBuilder()
-                .setLabel("View On GitHub")
+                .setLabel("Source Code")
                 .setStyle(discord_js_1.ButtonStyle.Link)
                 .setURL(githubUrl));
             await ctx.interaction.reply({

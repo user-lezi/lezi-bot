@@ -1,4 +1,4 @@
-import { AutocompleteInteraction, Client, Collection, CommandInteraction, SlashCommandBuilder, User } from "discord.js";
+import { AutocompleteInteraction, TextBasedChannel, Client, Collection, CommandInteraction, Guild, SlashCommandBuilder, User } from "discord.js";
 export declare function getBotStats(client: Client): Promise<{
     guilds: number;
     users: number;
@@ -11,8 +11,8 @@ export declare class Context {
     constructor(interaction: CommandInteraction, command: SlashData, commands: Collection<string, SlashData>);
     get client(): Client<true>;
     get application(): import("discord.js").ClientApplication;
-    get guild(): import("discord.js").Guild | null;
-    get channel(): import("discord.js").TextBasedChannel | null;
+    get guild(): Guild;
+    get channel(): TextBasedChannel;
     get user(): User;
     get applicationCommand(): import("discord.js").ApplicationCommand<{}> | import("discord.js").ApplicationCommand<{
         guild: import("discord.js").GuildResolvable;

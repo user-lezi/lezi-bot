@@ -132,7 +132,7 @@ export default {
 
       let components = new ActionRowBuilder<ButtonBuilder>().addComponents(
         new ButtonBuilder()
-          .setLabel("View On GitHub")
+          .setLabel("Source Code")
           .setStyle(ButtonStyle.Link)
           .setURL(githubUrl),
       );
