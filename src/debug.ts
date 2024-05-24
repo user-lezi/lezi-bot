@@ -16,6 +16,8 @@ async function evalCommand(message: Message) {
   let inputCode = message.content.slice(commandTrigger.length).trim();
   if (0 === inputCode.length) return;
 
+  const { client, channel, guild, author, member } = message;
+
   let outputCode: unknown;
   try {
     outputCode = await eval(inputCode);

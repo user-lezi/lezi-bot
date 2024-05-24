@@ -16,9 +16,17 @@ import { join } from "path";
 export async function getBotStats(client: Client) {
   const guilds = client.guilds.cache.size;
   const users = client.users.cache.size;
+  const members = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0);
+  const channels = client.channels.cache.size;
+  const commands = require("../metadata/commands.json").length;
+
   return {
     guilds,
     users,
+    members,
+    channels,
+    commands,
+    uptime: client.uptime as number,
   };
 }
 export class Context {
@@ -52,6 +60,11 @@ export class Context {
   }
   get applicationCommand() {
     return this.interaction.command;
+  }
+
+  fakelink(text: string) {
+    text = encodeURIComponent(text);
+    return `https://www.youtube.com/results?search_query=${text}`;
   }
 }
 export interface SlashData {

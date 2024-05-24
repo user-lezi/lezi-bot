@@ -20,7 +20,7 @@ interface Command {
   for (let file of commandFiles) {
     let cmd = require("./" + join("commands", file)).default;
     let command = cmd.data.toJSON();
-    if (command.options[0].type == 1) {
+    if (command.options[0]?.type == 1) {
       let subcommands = command.options.filter((o: any) => o.type == 1);
       for (let subcommand of subcommands) {
         commands.push({

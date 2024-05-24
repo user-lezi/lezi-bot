@@ -43,6 +43,7 @@ Reflect.set(
 const commands = handleSlashCommands();
 
 client.on(Events.ClientReady, async function (readyClient: Client<true>) {
+  /* Remove the below comment to register a new slash command if neeeded */
   await registerCommands(commands, readyClient);
   console.log(`${readyClient.user.tag} is ready!!`);
 

@@ -22,7 +22,9 @@ exports.default = {
         .setAutocomplete(true))),
     async execute(ctx) {
         if (ctx.interaction.options.getSubcommand() === "commandlist") {
-            const commandNames = ["help"];
+            const commandNames = require("../../metadata/commands.json")
+                .map((command) => command.name.split(" ")[0])
+                .filter((name, index, This) => index === This.indexOf(name));
             const commands = [];
             for (const command of commandNames) {
                 let cmd = ctx.application.commands.cache.find((c) => c.name === command);

@@ -8,5 +8,10 @@
     "name": "help command",
     "shortDescription": "Shows information about a specific command",
     "longDescription": "\"/help\" command is divided into two subcommands: \"/help commandlist\" and \"help command\"\n- \"/help commandlist\" displays the list of commands that are available.\n- \"/help command\" displays the information for the specific command that user provides the input for."
+  },
+  {
+    "name": "stats",
+    "shortDescription": "Shows the bot's statistics",
+    "longDescription": "Shows the bot's statistics related to general to system information."
   }
 ]

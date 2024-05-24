@@ -44,7 +44,12 @@ export default {
     ),
   async execute(ctx: Context) {
     if ((ctx.interaction.options as any).getSubcommand() === "commandlist") {
-      const commandNames = ["help"];
+      const commandNames = require("../../metadata/commands.json")
+        .map((command: any) => command.name.split(" ")[0])
+        .filter(
+          (name: string, index: number, This: string[]) =>
+            index === This.indexOf(name),
+        );
       const commands: Command[] = [];
       for (const command of commandNames) {
         let cmd = ctx.application.commands.cache.find(

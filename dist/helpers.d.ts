@@ -2,6 +2,10 @@ import { AutocompleteInteraction, TextBasedChannel, Client, Collection, CommandI
 export declare function getBotStats(client: Client): Promise<{
     guilds: number;
     users: number;
+    members: number;
+    channels: number;
+    commands: any;
+    uptime: number;
 }>;
 export declare class Context {
     interaction: CommandInteraction;
@@ -17,6 +21,7 @@ export declare class Context {
     get applicationCommand(): import("discord.js").ApplicationCommand<{}> | import("discord.js").ApplicationCommand<{
         guild: import("discord.js").GuildResolvable;
     }> | null;
+    fakelink(text: string): string;
 }
 export interface SlashData {
     data: SlashCommandBuilder;

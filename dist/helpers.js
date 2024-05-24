@@ -7,9 +7,16 @@ const path_1 = require("path");
 async function getBotStats(client) {
     const guilds = client.guilds.cache.size;
     const users = client.users.cache.size;
+    const members = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0);
+    const channels = client.channels.cache.size;
+    const commands = require("../metadata/commands.json").length;
     return {
         guilds,
         users,
+        members,
+        channels,
+        commands,
+        uptime: client.uptime,
     };
 }
 exports.getBotStats = getBotStats;
@@ -45,6 +52,10 @@ class Context {
     }
     get applicationCommand() {
         return this.interaction.command;
+    }
+    fakelink(text) {
+        text = encodeURIComponent(text);
+        return `https://www.youtube.com/results?search_query=${text}`;
     }
 }
 exports.Context = Context;
