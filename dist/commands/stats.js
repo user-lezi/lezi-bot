@@ -8,7 +8,6 @@ const helpers_1 = require("../helpers");
 const os_1 = __importDefault(require("os"));
 exports.default = {
     metadata: {
-        category: "Bot",
         description: "Shows the bot's statistics related to general to system information.",
     },
     data: new discord_js_1.SlashCommandBuilder()

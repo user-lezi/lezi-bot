@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
 exports.default = {
     metadata: {
-        category: "Bot",
         description: '"/help" command is divided into two subcommands: "/help commandlist" and "help command"\n- "/help commandlist" displays the list of commands that are available.\n- "/help command" displays the information for the specific command that user provides the input for.',
     },
     data: new discord_js_1.SlashCommandBuilder()
@@ -122,7 +121,7 @@ exports.default = {
     },
     async autocomplete(interaction) {
         let focusedValue = interaction.options.getFocused();
-        let choices = ["help commandlist", "help command"].sort();
+        let choices = ["help commandlist", "help command", "stats", "run"].sort();
         let filtered = choices
             .filter((choice) => choice.toLowerCase().includes(focusedValue.toLowerCase()))
             .slice(0, 25);

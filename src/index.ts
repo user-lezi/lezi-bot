@@ -1,17 +1,9 @@
 import {
-  codeBlock,
-  ActionRowBuilder,
   BaseInteraction,
-  ButtonBuilder,
-  ButtonInteraction,
-  ButtonStyle,
   Client,
-  ComponentType,
   DefaultWebSocketManagerOptions,
-  EmbedBuilder,
   Events,
   GatewayIntentBits,
-  Message,
 } from "discord.js";
 import {
   getBotStats,

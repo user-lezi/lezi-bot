@@ -1,0 +1,35 @@
+{
+  "name": "sandbox",
+  "description": "A nifty javascript sandbox for node.js",
+  "homepage": "http://gf3.github.com/sandbox/",
+  "author": "Gianni Chiappetta <gianni@runlevel6.org> (http://gf3.ca)",
+  "bugs": "https://github.com/gf3/sandbox/issues",
+  "contributors": [
+    "Bradley Meck <bradley.meck@gmail.com>",
+    "Dominic Tarr (http://cyber-hobo.blogspot.com)"
+  ],
+  "version": "0.8.6",
+  "main": "./lib/sandbox",
+  "directories": {
+    "lib": "./lib"
+  },
+  "engines": [
+    "node >=0.5.0"
+  ],
+  "devDependencies": {
+    "mocha": "1.20.1",
+    "should": "0.6.3",
+    "sinon": "~1.10.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gf3@github.com/gf3/sandbox.git"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "license": {
+    "type": "Public Domain",
+    "url": "http://github.com/gf3/sandbox/raw/master/UNLICENSE"
+  }
+}

@@ -2,16 +2,67 @@
   {
     "name": "help commandlist",
     "shortDescription": "Shows the list of available commands",
-    "longDescription": "\"/help\" command is divided into two subcommands: \"/help commandlist\" and \"help command\"\n- \"/help commandlist\" displays the list of commands that are available.\n- \"/help command\" displays the information for the specific command that user provides the input for."
+    "longDescription": "\"/help\" command is divided into two subcommands: \"/help commandlist\" and \"help command\"\n- \"/help commandlist\" displays the list of commands that are available.\n- \"/help command\" displays the information for the specific command that user provides the input for.",
+    "path": {
+      "js": "dist/commands/help.js",
+      "ts": "src/commands/help.ts"
+    },
+    "options": []
   },
   {
     "name": "help command",
     "shortDescription": "Shows information about a specific command",
-    "longDescription": "\"/help\" command is divided into two subcommands: \"/help commandlist\" and \"help command\"\n- \"/help commandlist\" displays the list of commands that are available.\n- \"/help command\" displays the information for the specific command that user provides the input for."
+    "longDescription": "\"/help\" command is divided into two subcommands: \"/help commandlist\" and \"help command\"\n- \"/help commandlist\" displays the list of commands that are available.\n- \"/help command\" displays the information for the specific command that user provides the input for.",
+    "path": {
+      "js": "dist/commands/help.js",
+      "ts": "src/commands/help.ts"
+    },
+    "options": [
+      {
+        "name": "command",
+        "description": "The command you want to get information about",
+        "type": 3,
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "run",
+    "shortDescription": "Runs the javascript code that user provides",
+    "longDescription": "Runs the javascript code that user provides",
+    "path": {
+      "js": "dist/commands/run.js",
+      "ts": "src/commands/run.ts"
+    },
+    "options": [
+      {
+        "name": "code",
+        "description": "The code that user provides",
+        "type": 3,
+        "required": true
+      },
+      {
+        "name": "console",
+        "description": "Whether to show the output in console or not (default: true)",
+        "type": 5,
+        "required": false
+      },
+      {
+        "name": "showcode",
+        "description": "Show the input code or not (default: true)",
+        "type": 5,
+        "required": false
+      }
+    ]
   },
   {
     "name": "stats",
     "shortDescription": "Shows the bot's statistics",
-    "longDescription": "Shows the bot's statistics related to general to system information."
+    "longDescription": "Shows the bot's statistics related to general to system information.",
+    "path": {
+      "js": "dist/commands/stats.js",
+      "ts": "src/commands/stats.ts"
+    },
+    "options": []
   }
 ]

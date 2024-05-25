@@ -1,12 +1,10 @@
-import { AutocompleteInteraction } from "discord.js";
 import { Context } from "../helpers";
 declare const _default: {
     metadata: {
         description: string;
     };
-    data: import("discord.js").SlashCommandSubcommandsOnlyBuilder;
+    data: import("discord.js").SlashCommandOptionsOnlyBuilder;
     execute(ctx: Context): Promise<import("discord.js").InteractionResponse<boolean> | undefined>;
-    autocomplete(interaction: AutocompleteInteraction): Promise<void>;
 };
 export default _default;
-//# sourceMappingURL=help.d.ts.map
+//# sourceMappingURL=run.d.ts.map
