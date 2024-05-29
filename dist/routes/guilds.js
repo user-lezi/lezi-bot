@@ -4,6 +4,7 @@ const backendApi_1 = require("../backendApi");
 exports.default = new backendApi_1.Route({
     path: "/guilds",
     method: "get",
+    queries: null,
     execute: async function (ctx) {
         let guilds = await ctx.client.guilds.fetch();
         let data = [];

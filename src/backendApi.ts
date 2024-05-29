@@ -12,9 +12,18 @@ interface API {
   error: (message: string) => void;
 }
 
+export interface Query {
+  name: string;
+  description: string;
+  type: string;
+  required: boolean;
+  default: any;
+}
+
 interface IRoute {
   path: string | null;
   method: string;
+  queries: Query[] | null;
   execute: (ctx: API) => Promise<unknown>;
 }
 
@@ -95,6 +104,7 @@ export default function (client: Client<true>) {
     new Route({
       path: null,
       method: "",
+      queries: null,
       execute: async function (ctx) {
         ctx.error("Not Found");
       },

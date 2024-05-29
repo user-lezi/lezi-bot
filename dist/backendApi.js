@@ -71,6 +71,7 @@ function default_1(client) {
         new Route({
             path: null,
             method: "",
+            queries: null,
             execute: async function (ctx) {
                 ctx.error("Not Found");
             },

@@ -1,13 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const backendApi_1 = require("../backendApi");
+const helpers_1 = require("../helpers");
 exports.default = new backendApi_1.Route({
-    path: "/guildIds",
+    path: "/stats",
     method: "get",
+    queries: null,
     execute: async function (ctx) {
-        let guilds = await ctx.client.guilds.fetch();
-        let guildIds = guilds.map((guild) => guild.id);
-        ctx.send(guildIds);
+        let stats = await (0, helpers_1.getBotStats)(ctx.client);
+        ctx.send(stats);
     },
 });
-//# sourceMappingURL=guildIds.js.map
+//# sourceMappingURL=stats.js.map

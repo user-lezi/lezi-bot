@@ -1,0 +1,20 @@
+[
+  {
+    "route": "/backend/guilds",
+    "method": "get",
+    "path": {
+      "ts": "dist/routes/guilds.js",
+      "js": "src/routes/guilds.ts"
+    },
+    "queries": []
+  },
+  {
+    "route": "/backend/stats",
+    "method": "get",
+    "path": {
+      "ts": "dist/routes/stats.js",
+      "js": "src/routes/stats.ts"
+    },
+    "queries": []
+  }
+]

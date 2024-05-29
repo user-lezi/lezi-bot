@@ -3,6 +3,7 @@ import { Route } from "../backendApi";
 export default new Route({
   path: "/guilds",
   method: "get",
+  queries: null,
   execute: async function (ctx) {
     let guilds = await ctx.client.guilds.fetch();
     let data = [];

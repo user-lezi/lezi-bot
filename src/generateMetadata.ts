@@ -82,3 +82,35 @@ interface CommandOptions {
 
   write("commands", commands);
 })();
+
+import { Query } from "./backendApi";
+
+interface Route {
+  route: string;
+  method: string;
+  path: {
+    ts: string;
+    js: string;
+  };
+  queries: Query[];
+}
+(async function () {
+  let routeFiles = readdirSync(join(__dirname, "routes")).filter(
+    (file: string) => file.endsWith(".js"),
+  );
+  let routes = [] as Route[];
+  for (let file of routeFiles) {
+    let route = require("./" + join("routes", file)).default;
+    let queries: Query[] = route.queries ?? [];
+    routes.push({
+      route: route.data.path,
+      method: route.data.method,
+      path: {
+        ts: join("dist", "routes", file),
+        js: join("src", "routes", file.replace(".js", ".ts")),
+      },
+      queries,
+    });
+  }
+  write("routes", routes);
+})();

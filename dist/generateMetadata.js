@@ -61,4 +61,22 @@ function write(name, json) {
     }
     write("commands", commands);
 })();
+(async function () {
+    let routeFiles = (0, fs_1.readdirSync)((0, path_1.join)(__dirname, "routes")).filter((file) => file.endsWith(".js"));
+    let routes = [];
+    for (let file of routeFiles) {
+        let route = require("./" + (0, path_1.join)("routes", file)).default;
+        let queries = route.queries ?? [];
+        routes.push({
+            route: route.data.path,
+            method: route.data.method,
+            path: {
+                ts: (0, path_1.join)("dist", "routes", file),
+                js: (0, path_1.join)("src", "routes", file.replace(".js", ".ts")),
+            },
+            queries,
+        });
+    }
+    write("routes", routes);
+})();
 //# sourceMappingURL=generateMetadata.js.map
