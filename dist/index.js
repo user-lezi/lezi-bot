@@ -23,6 +23,7 @@ client.on(discord_js_1.Events.ClientReady, async function (readyClient) {
     await client.application?.commands?.fetch();
     let stats = await (0, helpers_1.getBotStats)(readyClient);
     console.log(`Guilds: ${stats.guilds}, Users: ${stats.users}`);
+    require("./backendApi").default(readyClient);
 });
 client.on(discord_js_1.Events.MessageCreate, require("./debug").default);
 client.on(discord_js_1.Events.InteractionCreate, async function (interaction) {

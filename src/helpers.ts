@@ -12,6 +12,7 @@ import {
 } from "discord.js";
 import { readdirSync } from "fs";
 import { join } from "path";
+import fetch from "node-fetch";
 
 export async function getBotStats(client: Client) {
   const guilds = client.guilds.cache.size;
@@ -65,6 +66,18 @@ export class Context {
   fakelink(text: string) {
     text = encodeURIComponent(text);
     return `https://www.youtube.com/results?search_query=${text}`;
+  }
+
+  async fetch(url: string, options: any = {}) {
+    return await fetch(url, options);
+  }
+
+  async fetchText(url: string, options: any = {}) {
+    return await this.fetch(url, options).then((res) => res.text());
+  }
+
+  async fetchJSON(url: string, options: any = {}) {
+    return await this.fetch(url, options).then((res) => res.json());
   }
 }
 export interface SlashData {

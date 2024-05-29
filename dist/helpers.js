@@ -1,9 +1,13 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.registerCommands = exports.handleSlashCommands = exports.Context = exports.getBotStats = void 0;
 const discord_js_1 = require("discord.js");
 const fs_1 = require("fs");
 const path_1 = require("path");
+const node_fetch_1 = __importDefault(require("node-fetch"));
 async function getBotStats(client) {
     const guilds = client.guilds.cache.size;
     const users = client.users.cache.size;
@@ -56,6 +60,15 @@ class Context {
     fakelink(text) {
         text = encodeURIComponent(text);
         return `https://www.youtube.com/results?search_query=${text}`;
+    }
+    async fetch(url, options = {}) {
+        return await (0, node_fetch_1.default)(url, options);
+    }
+    async fetchText(url, options = {}) {
+        return await this.fetch(url, options).then((res) => res.text());
+    }
+    async fetchJSON(url, options = {}) {
+        return await this.fetch(url, options).then((res) => res.json());
     }
 }
 exports.Context = Context;

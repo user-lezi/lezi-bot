@@ -63,7 +63,7 @@ exports.default = {
                     `${(0, discord_js_1.bold)((0, discord_js_1.hyperlink)("Architecture", ctx.fakelink("Architecture")) + ":")} ${(0, discord_js_1.inlineCode)(os_1.default.arch())}`,
                     `${(0, discord_js_1.bold)((0, discord_js_1.hyperlink)("CPU Model", ctx.fakelink("CPU Model")) + ":")} ${(0, discord_js_1.inlineCode)(os_1.default.cpus()[0].model)}`,
                     `${(0, discord_js_1.bold)((0, discord_js_1.hyperlink)("CPU Cores", ctx.fakelink("CPU Cores")) + ":")} ${(0, discord_js_1.inlineCode)(os_1.default.cpus().length.toLocaleString())}`,
-                    `${(0, discord_js_1.bold)((0, discord_js_1.hyperlink)("Memory Usage", ctx.fakelink("Memory Usage")) + ":")} ${(0, discord_js_1.inlineCode)(`${umGb.toFixed(2)} GB / ${tmGb.toFixed(2)} GB (${usedPercent.toFixed(2)}%) [${fmGb.toFixed(2)} GB free]`)}`,
+                    `${(0, discord_js_1.bold)((0, discord_js_1.hyperlink)("Memory Usage", ctx.fakelink("Memory Usage")) + ":")} ${(0, discord_js_1.inlineCode)(`${umGb.toFixed(2)} GiB / ${tmGb.toFixed(2)} GiB (${usedPercent.toFixed(2)}%) [${fmGb.toFixed(2)} GiB free]`)}`,
                 ].join("\n"),
         });
         ctx.interaction.editReply({

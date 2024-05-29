@@ -79,7 +79,7 @@ export default {
               `${bold(hyperlink("CPU Model", ctx.fakelink("CPU Model")) + ":")} ${inlineCode(os.cpus()[0].model)}`,
               `${bold(hyperlink("CPU Cores", ctx.fakelink("CPU Cores")) + ":")} ${inlineCode(os.cpus().length.toLocaleString())}`,
               `${bold(hyperlink("Memory Usage", ctx.fakelink("Memory Usage")) + ":")} ${inlineCode(
-                `${umGb.toFixed(2)} GB / ${tmGb.toFixed(2)} GB (${usedPercent.toFixed(2)}%) [${fmGb.toFixed(2)} GB free]`,
+                `${umGb.toFixed(2)} GiB / ${tmGb.toFixed(2)} GiB (${usedPercent.toFixed(2)}%) [${fmGb.toFixed(2)} GiB free]`,
               )}`,
             ].join("\n"),
         },

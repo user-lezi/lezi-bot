@@ -43,6 +43,8 @@ client.on(Events.ClientReady, async function (readyClient: Client<true>) {
   await client.application?.commands?.fetch();
   let stats = await getBotStats(readyClient);
   console.log(`Guilds: ${stats.guilds}, Users: ${stats.users}`);
+
+  require("./backendApi").default(readyClient);
 });
 
 /* Developer Only Command (for debug purpose) */

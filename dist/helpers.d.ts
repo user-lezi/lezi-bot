@@ -1,4 +1,5 @@
 import { AutocompleteInteraction, TextBasedChannel, Client, Collection, CommandInteraction, Guild, SlashCommandBuilder, User } from "discord.js";
+import fetch from "node-fetch";
 export declare function getBotStats(client: Client): Promise<{
     guilds: number;
     users: number;
@@ -22,6 +23,9 @@ export declare class Context {
         guild: import("discord.js").GuildResolvable;
     }> | null;
     fakelink(text: string): string;
+    fetch(url: string, options?: any): Promise<fetch.Response>;
+    fetchText(url: string, options?: any): Promise<string>;
+    fetchJSON(url: string, options?: any): Promise<any>;
 }
 export interface SlashData {
     data: SlashCommandBuilder;
