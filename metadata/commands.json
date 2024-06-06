@@ -1,17 +1,34 @@
 [
   {
-    "name": "botinfo",
-    "shortDescription": "Shows the bot's information",
-    "longDescription": "*No Description Has Been Found*",
+    "name": "github user",
+    "shortDescription": "Gives the user info about the github user",
+    "longDescription": "\"/github\" command is divided into 2 subcommands: \"/github user\" & \"/github repository\"\n- \"/github user\" gives the user info about the github user.\n- \"/github repository\" gives info about the github repository",
     "path": {
-      "js": "dist/commands/botinfo.js",
-      "ts": "src/commands/botinfo.ts"
+      "js": "dist/commands/github.js",
+      "ts": "src/commands/github.ts"
     },
     "options": [
       {
-        "name": "bot",
-        "description": "The bot to get info",
-        "type": 6,
+        "name": "username",
+        "description": "The username of the github user",
+        "type": 3,
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "github repository",
+    "shortDescription": "Gives the repository info about the github repository",
+    "longDescription": "\"/github\" command is divided into 2 subcommands: \"/github user\" & \"/github repository\"\n- \"/github user\" gives the user info about the github user.\n- \"/github repository\" gives info about the github repository",
+    "path": {
+      "js": "dist/commands/github.js",
+      "ts": "src/commands/github.ts"
+    },
+    "options": [
+      {
+        "name": "repository",
+        "description": "The repository of the github user",
+        "type": 3,
         "required": true
       }
     ]

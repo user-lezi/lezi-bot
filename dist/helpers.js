@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.registerCommands = exports.handleSlashCommands = exports.Context = exports.getBotStats = void 0;
+exports.disableButtons = exports.registerCommands = exports.handleSlashCommands = exports.Context = exports.getBotStats = void 0;
 const discord_js_1 = require("discord.js");
 const fs_1 = require("fs");
 const path_1 = require("path");
@@ -96,4 +96,11 @@ async function registerCommands(commands, client) {
     console.log(`# Registered ${data.length} commands`);
 }
 exports.registerCommands = registerCommands;
+function disableButtons(row) {
+    row.components.forEach((component) => {
+        component.setDisabled(true);
+    });
+    return row;
+}
+exports.disableButtons = disableButtons;
 //# sourceMappingURL=helpers.js.map

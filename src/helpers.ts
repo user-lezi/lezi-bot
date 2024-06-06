@@ -9,6 +9,8 @@ import {
   REST,
   Routes,
   User,
+  ActionRowBuilder,
+  ButtonBuilder,
 } from "discord.js";
 import { readdirSync } from "fs";
 import { join } from "path";
@@ -113,4 +115,11 @@ export async function registerCommands(
     body,
   })) as any;
   console.log(`# Registered ${data.length} commands`);
+}
+
+export function disableButtons(row: ActionRowBuilder<ButtonBuilder>) {
+  row.components.forEach((component) => {
+    component.setDisabled(true);
+  });
+  return row;
 }

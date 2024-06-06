@@ -51,8 +51,9 @@ exports.default = {
                 });
             }
             const footer = [
-                `> Check out ${(0, discord_js_1.bold)((0, discord_js_1.hyperlink)("GitHub", "https://github.com/user-lezi/lezi-bot"))}.`,
-                `> ${(0, discord_js_1.bold)((0, discord_js_1.hyperlink)("Invite", "https://discord.com/oauth2/authorize?client_id=1242474432119836683&permissions=0&scope=bot+applications.commands"))} the bot to your server.`,
+                `## **Links**`,
+                `- Check out ${(0, discord_js_1.bold)((0, discord_js_1.hyperlink)("GitHub", "https://github.com/user-lezi/lezi-bot"))}.`,
+                `- ${(0, discord_js_1.bold)((0, discord_js_1.hyperlink)("Invite", "https://discord.com/oauth2/authorize?client_id=1242474432119836683&permissions=0&scope=bot+applications.commands"))} the bot to your server.`,
             ].join("\n");
             const embed = new discord_js_1.EmbedBuilder()
                 .setTitle("Here Is The Command List")

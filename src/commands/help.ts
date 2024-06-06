@@ -79,8 +79,9 @@ export default {
         });
       }
       const footer = [
-        `> Check out ${bold(hyperlink("GitHub", "https://github.com/user-lezi/lezi-bot"))}.`,
-        `> ${bold(hyperlink("Invite", "https://discord.com/oauth2/authorize?client_id=1242474432119836683&permissions=0&scope=bot+applications.commands"))} the bot to your server.`,
+        `## **Links**`,
+        `- Check out ${bold(hyperlink("GitHub", "https://github.com/user-lezi/lezi-bot"))}.`,
+        `- ${bold(hyperlink("Invite", "https://discord.com/oauth2/authorize?client_id=1242474432119836683&permissions=0&scope=bot+applications.commands"))} the bot to your server.`,
       ].join("\n");
       const embed = new EmbedBuilder()
         .setTitle("Here Is The Command List")

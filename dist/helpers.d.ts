@@ -1,4 +1,4 @@
-import { AutocompleteInteraction, TextBasedChannel, Client, Collection, CommandInteraction, Guild, SlashCommandBuilder, User } from "discord.js";
+import { AutocompleteInteraction, TextBasedChannel, Client, Collection, CommandInteraction, Guild, SlashCommandBuilder, User, ActionRowBuilder, ButtonBuilder } from "discord.js";
 import fetch from "node-fetch";
 export declare function getBotStats(client: Client): Promise<{
     guilds: number;
@@ -37,4 +37,5 @@ export interface SlashData {
 }
 export declare function handleSlashCommands(): Collection<string, SlashData>;
 export declare function registerCommands(commands: Collection<string, SlashData>, client: Client<true>): Promise<void>;
+export declare function disableButtons(row: ActionRowBuilder<ButtonBuilder>): ActionRowBuilder<ButtonBuilder>;
 //# sourceMappingURL=helpers.d.ts.map
