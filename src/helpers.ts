@@ -81,9 +81,23 @@ export class Context {
   async fetchJSON(url: string, options: any = {}) {
     return await this.fetch(url, options).then((res) => res.json());
   }
+
+  bar(current: number, max: number, size = 10, blank = "◼️", fill = "⬜") {
+    let bar = "";
+    let percentage = current / max;
+    let progress = Math.round(size * percentage);
+    for (let i = 0; i < progress; i++) {
+      bar += fill;
+    }
+    for (let i = progress; i < size; i++) {
+      bar += blank;
+    }
+    return bar;
+  }
 }
 export interface SlashData {
   data: SlashCommandBuilder;
+  available: boolean;
   execute: (ctx: Context) => Promise<unknown>;
   autocomplete?: (interaction: AutocompleteInteraction) => Promise<unknown>;
   metadata?: { [key: string]: any };
@@ -95,6 +109,7 @@ export function handleSlashCommands() {
   const commands = new Collection<string, SlashData>();
   for (const file of commandFiles) {
     const command = require(join(__dirname, "commands", file)).default;
+    command.available = true;
     commands.set(command.data.name, command);
     console.log(`- Loaded command /${command.data.name}`);
   }

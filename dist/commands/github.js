@@ -329,9 +329,9 @@ async function executeRepository(ctx, _repository) {
             .setLabel("@" + data.full_name)
             .setStyle(discord_js_1.ButtonStyle.Link)
             .setURL(data.html_url), new discord_js_1.ButtonBuilder()
-            .setLabel("@" + data.author.login)
+            .setLabel("@" + data.owner.login)
             .setStyle(discord_js_1.ButtonStyle.Link)
-            .setURL(data.author.html_url), new discord_js_1.ButtonBuilder()
+            .setURL(data.owner.html_url), new discord_js_1.ButtonBuilder()
             .setLabel(`Forks (${data.forks})`)
             .setStyle(discord_js_1.ButtonStyle.Primary)
             .setCustomId(`show_forks`)),

@@ -70,6 +70,18 @@ class Context {
     async fetchJSON(url, options = {}) {
         return await this.fetch(url, options).then((res) => res.json());
     }
+    bar(current, max, size = 10, blank = "◼️", fill = "⬜") {
+        let bar = "";
+        let percentage = current / max;
+        let progress = Math.round(size * percentage);
+        for (let i = 0; i < progress; i++) {
+            bar += fill;
+        }
+        for (let i = progress; i < size; i++) {
+            bar += blank;
+        }
+        return bar;
+    }
 }
 exports.Context = Context;
 function handleSlashCommands() {
@@ -77,6 +89,7 @@ function handleSlashCommands() {
     const commands = new discord_js_1.Collection();
     for (const file of commandFiles) {
         const command = require((0, path_1.join)(__dirname, "commands", file)).default;
+        command.available = true;
         commands.set(command.data.name, command);
         console.log(`- Loaded command /${command.data.name}`);
     }

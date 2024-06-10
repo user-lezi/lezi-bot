@@ -34,6 +34,23 @@
     ]
   },
   {
+    "name": "gpt chat",
+    "shortDescription": "Chat with ChatGPT",
+    "longDescription": "Interact with ChatGPT. Thanks to https://api.kastg.xyz/",
+    "path": {
+      "js": "dist/commands/gpt4.js",
+      "ts": "src/commands/gpt4.ts"
+    },
+    "options": [
+      {
+        "name": "prompt",
+        "description": "The prompt to send to",
+        "type": 3,
+        "required": true
+      }
+    ]
+  },
+  {
     "name": "help commandlist",
     "shortDescription": "Shows the list of available commands",
     "longDescription": "\"/help\" command is divided into two subcommands: \"/help commandlist\" and \"help command\"\n- \"/help commandlist\" displays the list of commands that are available.\n- \"/help command\" displays the information for the specific command that user provides the input for.",

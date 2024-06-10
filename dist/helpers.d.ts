@@ -26,9 +26,11 @@ export declare class Context {
     fetch(url: string, options?: any): Promise<fetch.Response>;
     fetchText(url: string, options?: any): Promise<string>;
     fetchJSON(url: string, options?: any): Promise<any>;
+    bar(current: number, max: number, size?: number, blank?: string, fill?: string): string;
 }
 export interface SlashData {
     data: SlashCommandBuilder;
+    available: boolean;
     execute: (ctx: Context) => Promise<unknown>;
     autocomplete?: (interaction: AutocompleteInteraction) => Promise<unknown>;
     metadata?: {

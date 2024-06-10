@@ -412,9 +412,9 @@ async function executeRepository(ctx: Context, _repository?: string) {
         .setStyle(ButtonStyle.Link)
         .setURL(data.html_url),
       new ButtonBuilder()
-        .setLabel("@" + data.author.login)
+        .setLabel("@" + data.owner.login)
         .setStyle(ButtonStyle.Link)
-        .setURL(data.author.html_url),
+        .setURL(data.owner.html_url),
       new ButtonBuilder()
         .setLabel(`Forks (${data.forks})`)
         .setStyle(ButtonStyle.Primary)
