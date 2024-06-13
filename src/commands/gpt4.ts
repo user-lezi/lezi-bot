@@ -51,10 +51,10 @@ async function chat(ctx: Context) {
       content: "Please provide a prompt to send to ChatGPT",
     });
   }
+  let time = performance.now();
   let uriEncoded = encodeURIComponent(prompt);
-
   let json = await ctx.fetchJSON(API + uriEncoded);
-
+  time = performance.now() - time;
   if (json.status !== "true") {
     return await ctx.interaction.editReply({
       content:
@@ -70,6 +70,12 @@ async function chat(ctx: Context) {
       iconURL: ctx.user.displayAvatarURL(),
     })
     .setDescription(prompt);
+
+  let btn = new ButtonBuilder()
+    .setCustomId("a")
+    .setDisabled(true)
+    .setLabel(`Took ${(time / 1000).toFixed(2)}s`)
+    .setStyle(ButtonStyle.Secondary);
 
   let res = json.result[0].response;
   let chunks = res.match(/[\s\S]{1,4000}/g) as string[];
@@ -94,6 +100,7 @@ async function chat(ctx: Context) {
   if (chunks.length == 1) {
     return await ctx.interaction.editReply({
       embeds: [user_prompt_embed, embeds[0]],
+      components: [new ActionRowBuilder<ButtonBuilder>().addComponents(btn)],
     });
   }
 
@@ -105,6 +112,7 @@ async function chat(ctx: Context) {
           .setCustomId("b")
           .setStyle(ButtonStyle.Secondary)
           .setDisabled(a),
+        btn,
         new ButtonBuilder()
           .setEmoji("▶️")
           .setCustomId("f")

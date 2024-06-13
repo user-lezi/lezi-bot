@@ -33,8 +33,10 @@ async function chat(ctx) {
             content: "Please provide a prompt to send to ChatGPT",
         });
     }
+    let time = performance.now();
     let uriEncoded = encodeURIComponent(prompt);
     let json = await ctx.fetchJSON(API + uriEncoded);
+    time = performance.now() - time;
     if (json.status !== "true") {
         return await ctx.interaction.editReply({
             content: "An error occurred while processing your request. Please try again later.",
@@ -48,6 +50,11 @@ async function chat(ctx) {
         iconURL: ctx.user.displayAvatarURL(),
     })
         .setDescription(prompt);
+    let btn = new discord_js_1.ButtonBuilder()
+        .setCustomId("a")
+        .setDisabled(true)
+        .setLabel(`Took ${(time / 1000).toFixed(2)}s`)
+        .setStyle(discord_js_1.ButtonStyle.Secondary);
     let res = json.result[0].response;
     let chunks = res.match(/[\s\S]{1,4000}/g);
     let embeds = [];
@@ -70,6 +77,7 @@ async function chat(ctx) {
     if (chunks.length == 1) {
         return await ctx.interaction.editReply({
             embeds: [user_prompt_embed, embeds[0]],
+            components: [new discord_js_1.ActionRowBuilder().addComponents(btn)],
         });
     }
     function buttons(a = true, b = true) {
@@ -78,7 +86,7 @@ async function chat(ctx) {
                 .setEmoji("◀️")
                 .setCustomId("b")
                 .setStyle(discord_js_1.ButtonStyle.Secondary)
-                .setDisabled(a), new discord_js_1.ButtonBuilder()
+                .setDisabled(a), btn, new discord_js_1.ButtonBuilder()
                 .setEmoji("▶️")
                 .setCustomId("f")
                 .setStyle(discord_js_1.ButtonStyle.Secondary)
