@@ -2,6 +2,7 @@ import { AutocompleteInteraction } from "discord.js";
 import { Context } from "../helpers";
 declare const _default: {
     metadata: {
+        category: string;
         description: string;
     };
     data: import("discord.js").SlashCommandSubcommandsOnlyBuilder;

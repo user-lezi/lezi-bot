@@ -24,8 +24,12 @@ let emojis = {
 
 export default {
   metadata: {
-    description:
-      '"/github" command is divided into 2 subcommands: "/github user" & "/github repository"\n- "/github user" gives the user info about the github user.\n- "/github repository" gives info about the github repository',
+    category: "Github",
+    description: JSON.stringify({
+      user: "Finds and shows the information about the provided github user. The information is fetched from the GitHub API.",
+      repository:
+        "Finds and shows the information about the provided github repository. The information is fetched from the GitHub API.",
+    }),
   },
 
   data: new SlashCommandBuilder()

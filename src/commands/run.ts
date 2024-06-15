@@ -10,6 +10,7 @@ const Sandbox: any = require("sandbox");
 
 export default {
   metadata: {
+    category: "Utility",
     description: "Runs the javascript code that user provides",
   },
   data: new SlashCommandBuilder()

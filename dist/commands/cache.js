@@ -3,7 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
 exports.default = {
     metadata: {
-        description: "Search through bot's cache",
+        category: "Cache",
+        description: JSON.stringify({
+            guild: `Fetches information from the guild found through the provided query. The list of guilds are the guilds where the bot is in.`,
+        }),
     },
     data: new discord_js_1.SlashCommandBuilder()
         .setName("cache")
@@ -48,7 +51,9 @@ exports.default = {
                 `${g.name} [${g.id}]`,
                 g.id,
             ]);
-            let filtered = choices.filter((choice) => choice[0].toLowerCase().includes(value.toLowerCase()));
+            let filtered = choices
+                .filter((choice) => choice[0].toLowerCase().includes(value.toLowerCase()))
+                .slice(0, 25);
             await interaction.respond(filtered.map((choice) => ({ name: choice[0], value: choice[1] })));
         }
     },

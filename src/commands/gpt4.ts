@@ -14,7 +14,10 @@ import { Context } from "../helpers";
 
 export default {
   metadata: {
-    description: "Interact with ChatGPT. Thanks to https://api.kastg.xyz/",
+    category: "AI",
+    description: JSON.stringify({
+      chat: "Chat with ChatGPT through discord.",
+    }),
   },
 
   data: new SlashCommandBuilder()

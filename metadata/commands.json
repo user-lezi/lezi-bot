@@ -1,8 +1,10 @@
 [
   {
     "name": "cache guild",
+    "mainName": "cache",
     "shortDescription": "Search through guilds",
-    "longDescription": "Search through bot's cache",
+    "longDescription": "Fetches information from the guild found through the provided query. The list of guilds are the guilds where the bot is in.",
+    "category": "Cache",
     "path": {
       "js": "dist/commands/cache.js",
       "ts": "src/commands/cache.ts"
@@ -42,8 +44,10 @@
   },
   {
     "name": "github user",
+    "mainName": "github",
     "shortDescription": "Gives the user info about the github user",
-    "longDescription": "\"/github\" command is divided into 2 subcommands: \"/github user\" & \"/github repository\"\n- \"/github user\" gives the user info about the github user.\n- \"/github repository\" gives info about the github repository",
+    "longDescription": "Finds and shows the information about the provided github user. The information is fetched from the GitHub API.",
+    "category": "Github",
     "path": {
       "js": "dist/commands/github.js",
       "ts": "src/commands/github.ts"
@@ -59,8 +63,10 @@
   },
   {
     "name": "github repository",
+    "mainName": "github",
     "shortDescription": "Gives the repository info about the github repository",
-    "longDescription": "\"/github\" command is divided into 2 subcommands: \"/github user\" & \"/github repository\"\n- \"/github user\" gives the user info about the github user.\n- \"/github repository\" gives info about the github repository",
+    "longDescription": "Finds and shows the information about the provided github repository. The information is fetched from the GitHub API.",
+    "category": "Github",
     "path": {
       "js": "dist/commands/github.js",
       "ts": "src/commands/github.ts"
@@ -76,8 +82,10 @@
   },
   {
     "name": "gpt chat",
+    "mainName": "gpt",
     "shortDescription": "Chat with ChatGPT",
-    "longDescription": "Interact with ChatGPT. Thanks to https://api.kastg.xyz/",
+    "longDescription": "Chat with ChatGPT through discord.",
+    "category": "AI",
     "path": {
       "js": "dist/commands/gpt4.js",
       "ts": "src/commands/gpt4.ts"
@@ -93,8 +101,10 @@
   },
   {
     "name": "help commandlist",
+    "mainName": "help",
     "shortDescription": "Shows the list of available commands",
-    "longDescription": "\"/help\" command is divided into two subcommands: \"/help commandlist\" and \"help command\"\n- \"/help commandlist\" displays the list of commands that are available.\n- \"/help command\" displays the information for the specific command that user provides the input for.",
+    "longDescription": "Shows a list of all commands, their category and some bot related links.",
+    "category": "Utility",
     "path": {
       "js": "dist/commands/help.js",
       "ts": "src/commands/help.ts"
@@ -103,8 +113,10 @@
   },
   {
     "name": "help command",
+    "mainName": "help",
     "shortDescription": "Shows information about a specific command",
-    "longDescription": "\"/help\" command is divided into two subcommands: \"/help commandlist\" and \"help command\"\n- \"/help commandlist\" displays the list of commands that are available.\n- \"/help command\" displays the information for the specific command that user provides the input for.",
+    "longDescription": "Shows information about a specific command.",
+    "category": "Utility",
     "path": {
       "js": "dist/commands/help.js",
       "ts": "src/commands/help.ts"
@@ -120,8 +132,10 @@
   },
   {
     "name": "run",
+    "mainName": "run",
     "shortDescription": "Runs the javascript code that user provides",
     "longDescription": "Runs the javascript code that user provides",
+    "category": "Utility",
     "path": {
       "js": "dist/commands/run.js",
       "ts": "src/commands/run.ts"
@@ -149,8 +163,10 @@
   },
   {
     "name": "stats",
+    "mainName": "stats",
     "shortDescription": "Shows the bot's statistics",
     "longDescription": "Shows the bot's statistics related to general to system information.",
+    "category": "Utility",
     "path": {
       "js": "dist/commands/stats.js",
       "ts": "src/commands/stats.ts"

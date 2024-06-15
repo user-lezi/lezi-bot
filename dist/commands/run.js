@@ -5,6 +5,7 @@ const util_1 = require("util");
 const Sandbox = require("sandbox");
 exports.default = {
     metadata: {
+        category: "Utility",
         description: "Runs the javascript code that user provides",
     },
     data: new discord_js_1.SlashCommandBuilder()

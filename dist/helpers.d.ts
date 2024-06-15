@@ -22,6 +22,8 @@ export declare class Context {
     get applicationCommand(): import("discord.js").ApplicationCommand<{}> | import("discord.js").ApplicationCommand<{
         guild: import("discord.js").GuildResolvable;
     }> | null;
+    randomGuild(): Promise<Guild>;
+    randomUser(): Promise<User>;
     fakelink(text: string): string;
     fetch(url: string, options?: any): Promise<fetch.Response>;
     fetchText(url: string, options?: any): Promise<string>;

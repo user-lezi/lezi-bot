@@ -57,6 +57,17 @@ class Context {
     get applicationCommand() {
         return this.interaction.command;
     }
+    async randomGuild() {
+        let guilds = this.client.guilds.cache.map((x) => x);
+        let random = guilds[Math.floor(Math.random() * guilds.length)];
+        return await random.fetch();
+    }
+    async randomUser() {
+        let guild = await this.randomGuild();
+        let users = await guild.members.fetch();
+        let random = users.filter((x) => !x.user.bot).random();
+        return random.user;
+    }
     fakelink(text) {
         text = encodeURIComponent(text);
         return `https://www.youtube.com/results?search_query=${text}`;

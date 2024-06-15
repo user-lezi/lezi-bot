@@ -1,5 +1,6 @@
 import { writeFileSync, readdirSync } from "fs";
 import { join } from "path";
+import { ApplicationCommandOptionType } from "discord.js";
 
 function write(name: string, json: object) {
   let path = join(__dirname, "..", "metadata", name + ".json");
@@ -7,20 +8,22 @@ function write(name: string, json: object) {
   console.log("- Generated Metadata [" + name + "]");
   return true;
 }
-interface Command {
+export interface Command {
   name: string;
+  mainName: string;
   shortDescription: string;
   longDescription: string;
+  category: string;
   path: {
     ts: string;
     js: string;
   };
   options: CommandOptions[];
 }
-interface CommandOptions {
+export interface CommandOptions {
   name: string;
   description: string;
-  type: number;
+  type: ApplicationCommandOptionType;
   required: boolean;
 }
 (async function () {
@@ -30,6 +33,7 @@ interface CommandOptions {
   let commands = [] as Command[];
   for (let file of commandFiles) {
     let cmd = require("./" + join("commands", file)).default;
+    let category = cmd.metadata.category;
     let command = cmd.data.toJSON();
     let options: CommandOptions[] = [];
 
@@ -44,11 +48,17 @@ interface CommandOptions {
             required: option.required,
           });
         }
+        let description = JSON.parse(
+          (cmd.metadata.description ?? "{}") as string,
+        );
         commands.push({
           name: [command.name, subcommand.name].join(" "),
+          mainName: command.name,
           shortDescription: subcommand.description,
           longDescription:
-            cmd.metadata?.description || "*No Description Has Been Found*",
+            description[subcommand.name as keyof typeof description] ||
+            "*No Description Has Been Found*",
+          category,
           path: {
             js: join("dist", "commands", file),
             ts: join("src", "commands", file.replace(".js", ".ts")),
@@ -69,9 +79,11 @@ interface CommandOptions {
     }
     commands.push({
       name: command.name,
+      mainName: command.name,
       shortDescription: command.description,
       longDescription:
         cmd.metadata?.description || "*No Description Has Been Found*",
+      category,
       path: {
         js: join("dist", "commands", file),
         ts: join("src", "commands", file.replace(".js", ".ts")),

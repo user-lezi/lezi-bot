@@ -13,6 +13,7 @@ function write(name, json) {
     let commands = [];
     for (let file of commandFiles) {
         let cmd = require("./" + (0, path_1.join)("commands", file)).default;
+        let category = cmd.metadata.category;
         let command = cmd.data.toJSON();
         let options = [];
         if (command.options[0]?.type == 1) {
@@ -26,10 +27,14 @@ function write(name, json) {
                         required: option.required,
                     });
                 }
+                let description = JSON.parse((cmd.metadata.description ?? "{}"));
                 commands.push({
                     name: [command.name, subcommand.name].join(" "),
+                    mainName: command.name,
                     shortDescription: subcommand.description,
-                    longDescription: cmd.metadata?.description || "*No Description Has Been Found*",
+                    longDescription: description[subcommand.name] ||
+                        "*No Description Has Been Found*",
+                    category,
                     path: {
                         js: (0, path_1.join)("dist", "commands", file),
                         ts: (0, path_1.join)("src", "commands", file.replace(".js", ".ts")),
@@ -50,8 +55,10 @@ function write(name, json) {
         }
         commands.push({
             name: command.name,
+            mainName: command.name,
             shortDescription: command.description,
             longDescription: cmd.metadata?.description || "*No Description Has Been Found*",
+            category,
             path: {
                 js: (0, path_1.join)("dist", "commands", file),
                 ts: (0, path_1.join)("src", "commands", file.replace(".js", ".ts")),

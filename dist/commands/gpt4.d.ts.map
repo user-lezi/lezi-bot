@@ -1,1 +1,1 @@
-{"version":3,"file":"gpt4.d.ts","sourceRoot":"","sources":["../../src/commands/gpt4.ts"],"names":[],"mappings":"AAYA,OAAO,EAAE,OAAO,EAAE,MAAM,YAAY,CAAC;;;;;;iBAsBhB,OAAO;;AApB5B,wBA2BE"}
+{"version":3,"file":"gpt4.d.ts","sourceRoot":"","sources":["../../src/commands/gpt4.ts"],"names":[],"mappings":"AAYA,OAAO,EAAE,OAAO,EAAE,MAAM,YAAY,CAAC;;;;;;;iBAyBhB,OAAO;;AAvB5B,wBA8BE"}

@@ -4,7 +4,10 @@ const API = "https://api.kastg.xyz/api/ai/chatgptV4?prompt=";
 const discord_js_1 = require("discord.js");
 exports.default = {
     metadata: {
-        description: "Interact with ChatGPT. Thanks to https://api.kastg.xyz/",
+        category: "AI",
+        description: JSON.stringify({
+            chat: "Chat with ChatGPT through discord.",
+        }),
     },
     data: new discord_js_1.SlashCommandBuilder()
         .setName("gpt")

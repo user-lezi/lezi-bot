@@ -2,6 +2,7 @@ import { SlashCommandBuilder } from "discord.js";
 import { Context } from "../helpers";
 declare const _default: {
     metadata: {
+        category: string;
         description: string;
     };
     data: SlashCommandBuilder;

@@ -10,6 +10,7 @@ import os from "os";
 
 export default {
   metadata: {
+    category: "Utility",
     description:
       "Shows the bot's statistics related to general to system information.",
   },
