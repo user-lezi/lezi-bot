@@ -1,5 +1,46 @@
 [
   {
+    "name": "cache guild",
+    "shortDescription": "Search through guilds",
+    "longDescription": "Search through bot's cache",
+    "path": {
+      "js": "dist/commands/cache.js",
+      "ts": "src/commands/cache.ts"
+    },
+    "options": [
+      {
+        "name": "query",
+        "description": "The query to search for or just drop the guild id.",
+        "type": 3,
+        "required": false
+      },
+      {
+        "name": "show-channels",
+        "description": "Show channel information",
+        "type": 5,
+        "required": false
+      },
+      {
+        "name": "show-members",
+        "description": "Show members information",
+        "type": 5,
+        "required": false
+      },
+      {
+        "name": "show-roles",
+        "description": "Show roles information",
+        "type": 5,
+        "required": false
+      },
+      {
+        "name": "show-emojis",
+        "description": "Show emojis information",
+        "type": 5,
+        "required": false
+      }
+    ]
+  },
+  {
     "name": "github user",
     "shortDescription": "Gives the user info about the github user",
     "longDescription": "\"/github\" command is divided into 2 subcommands: \"/github user\" & \"/github repository\"\n- \"/github user\" gives the user info about the github user.\n- \"/github repository\" gives info about the github repository",
