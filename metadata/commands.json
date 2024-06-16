@@ -172,5 +172,30 @@
       "ts": "src/commands/stats.ts"
     },
     "options": []
+  },
+  {
+    "name": "tts",
+    "mainName": "tts",
+    "shortDescription": "Converts text to speech.",
+    "longDescription": "Converts text to speech. Available Languages at [GitHub](https://github.com/user-lezi/lezi-bot/tree/main/metadata/tts-languagues.json)",
+    "category": "Utility",
+    "path": {
+      "js": "dist/commands/tts.js",
+      "ts": "src/commands/tts.ts"
+    },
+    "options": [
+      {
+        "name": "text",
+        "description": "The text to convert to speech.",
+        "type": 3,
+        "required": true
+      },
+      {
+        "name": "language",
+        "description": "The language to convert the text to.",
+        "type": 3,
+        "required": false
+      }
+    ]
   }
 ]
