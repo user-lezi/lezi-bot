@@ -4,9 +4,10 @@
   "description": "Bot",
   "main": "dist/index.js",
   "scripts": {
-    "build": "prettier src --write && tsc",
+    "pp": "prettier src --write && tsc",
     "metadata": "node dist/generateMetadata.js",
-    "main": "npm run build && npm run metadata && node dist/index.js"
+    "build": "npm run pp && npm run metadata && npm run main",
+    "main": "node dist/index.js"
   },
   "repository": {
     "type": "git",
