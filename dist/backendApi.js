@@ -21,6 +21,7 @@ class Route {
         let ctx = {
             res,
             req,
+            path: req.originalUrl,
             client,
             route: this,
             start: performance.now(),
@@ -30,24 +31,44 @@ class Route {
             },
             send: function send(data, status = 200) {
                 res.status(200).send({
-                    path: this.route.path,
+                    path: this.path,
                     execution: performance.now() - this.start,
+                    error: data instanceof Error,
                     data: data instanceof Error
                         ? {
-                            error: true,
                             type: data.name,
                             message: data.message,
                         }
-                        : typeof data == "object" && !Array.isArray(data)
-                            ? {
-                                error: false,
-                                ...data,
-                            }
-                            : {
-                                error: false,
-                                data,
-                            },
+                        : data,
                 });
+            },
+            getQuery: function getQuery(name) {
+                return req.query[name];
+            },
+            getQueries: function getQueries() {
+                return req.query;
+            },
+            getBody: function getBody(...properties) {
+                let body = req.body;
+                for (let property of properties) {
+                    body = body[property];
+                    if (body == undefined)
+                        return undefined;
+                    if (body == null)
+                        return null;
+                    if ("object" !== typeof body)
+                        return body;
+                }
+                return body;
+            },
+            getHeaders: function getHeaders() {
+                return req.headers;
+            },
+            getParam: function getParam(name) {
+                return req.params[name];
+            },
+            getParams: function getParams() {
+                return req.params;
             },
         };
         await this.data.execute(ctx);

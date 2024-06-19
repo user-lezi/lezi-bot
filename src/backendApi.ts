@@ -5,9 +5,16 @@ import { join } from "path";
 interface API {
   res: express.Response;
   req: express.Request;
+  path: string;
   client: Client<true>;
   route: Route;
   start: number;
+  getQuery: (name: string) => string;
+  getQueries: () => Record<string, string>;
+  getBody: (...properties: string[]) => string;
+  getHeaders: () => Record<string, string>;
+  getParam: (name: string) => string;
+  getParams: () => Record<string, string>;
   send: (data: any) => void;
   error: (message: string) => void;
 }
@@ -44,6 +51,7 @@ export class Route {
     let ctx: API = {
       res,
       req,
+      path: req.originalUrl,
       client,
       route: this,
       start: performance.now(),
@@ -53,25 +61,43 @@ export class Route {
       },
       send: function send(data: any, status = 200) {
         res.status(200).send({
-          path: this.route.path,
+          path: this.path,
           execution: performance.now() - this.start,
+          error: data instanceof Error,
           data:
             data instanceof Error
               ? {
-                  error: true,
                   type: (data as Error).name,
                   message: (data as Error).message,
                 }
-              : typeof data == "object" && !Array.isArray(data)
-                ? {
-                    error: false,
-                    ...data,
-                  }
-                : {
-                    error: false,
-                    data,
-                  },
+              : data,
         });
+      },
+
+      getQuery: function getQuery(name: string) {
+        return req.query[name] as string;
+      },
+      getQueries: function getQueries() {
+        return req.query as Record<string, string>;
+      },
+      getBody: function getBody(...properties: string[]) {
+        let body = req.body;
+        for (let property of properties) {
+          body = body[property];
+          if (body == undefined) return undefined;
+          if (body == null) return null;
+          if ("object" !== typeof body) return body;
+        }
+        return body;
+      },
+      getHeaders: function getHeaders() {
+        return req.headers as Record<string, string>;
+      },
+      getParam: function getParam(name: string) {
+        return req.params[name] as string;
+      },
+      getParams: function getParams() {
+        return req.params as Record<string, string>;
       },
     };
     await this.data.execute(ctx);

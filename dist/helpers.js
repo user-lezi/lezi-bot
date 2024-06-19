@@ -37,6 +37,9 @@ class Context {
             colors: {
                 main: 0xff8080,
             },
+            channels: {
+                ready: "1252948790688612454",
+            },
         };
     }
     get client() {

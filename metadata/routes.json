@@ -16,5 +16,14 @@
       "js": "src/routes/stats.ts"
     },
     "queries": []
+  },
+  {
+    "route": "/backend/u/:id",
+    "method": "get",
+    "path": {
+      "ts": "dist/routes/user.js",
+      "js": "src/routes/user.ts"
+    },
+    "queries": []
   }
 ]

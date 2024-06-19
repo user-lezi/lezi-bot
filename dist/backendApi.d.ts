@@ -3,9 +3,16 @@ import express from "express";
 interface API {
     res: express.Response;
     req: express.Request;
+    path: string;
     client: Client<true>;
     route: Route;
     start: number;
+    getQuery: (name: string) => string;
+    getQueries: () => Record<string, string>;
+    getBody: (...properties: string[]) => string;
+    getHeaders: () => Record<string, string>;
+    getParam: (name: string) => string;
+    getParams: () => Record<string, string>;
     send: (data: any) => void;
     error: (message: string) => void;
 }
