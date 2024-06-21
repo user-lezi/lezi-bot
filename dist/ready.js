@@ -15,14 +15,16 @@ async function default_1(client) {
         .setTimestamp()
         .setDescription(await description(client));
     let previous_messages = await channel.messages.fetch({ limit: 100 });
-    let previous_message = previous_messages.find((x) => x.author.id == client.user.id);
-    if (previous_message) {
-        let previous_uptime = previous_message.embeds[0]
-            .description.split("\n")[1]
-            .split("**")[1];
-        let parsed = parseUptime(previous_uptime);
-        if (parsed <= parseUptime("1h")) {
-            await previous_message.delete();
+    let _previous_messages = previous_messages.filter((x) => x.author.id == client.user.id);
+    for (let previous_message of _previous_messages.values()) {
+        if (previous_message) {
+            let previous_uptime = previous_message.embeds[0]
+                .description.split("\n")[1]
+                .split("**")[1];
+            let parsed = parseUptime(previous_uptime);
+            if (parsed <= parseUptime("1h")) {
+                await previous_message.delete();
+            }
         }
     }
     let message = await channel.send({ embeds: [base_embed] });
