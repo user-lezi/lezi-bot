@@ -3,7 +3,7 @@ import {
   TextBasedChannel,
   Client,
   Collection,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   Guild,
   SlashCommandBuilder,
   REST,
@@ -33,21 +33,20 @@ export async function getBotStats(client: Client) {
   };
 }
 export class Context {
-  config: any;
+  public static Config = {
+    colors: {
+      main: 0xff8080,
+    },
+    channels: {
+      ready: "1252948790688612454",
+    },
+  };
+  public config = Context.Config;
   constructor(
-    public interaction: CommandInteraction,
+    public interaction: ChatInputCommandInteraction,
     public command: SlashData,
     public commands: Collection<string, SlashData>,
-  ) {
-    this.config = {
-      colors: {
-        main: 0xff8080,
-      },
-      channels: {
-        ready: "1252948790688612454",
-      },
-    };
-  }
+  ) {}
 
   get client(): Client<true> {
     return this.interaction.client;
@@ -66,6 +65,10 @@ export class Context {
   }
   get applicationCommand() {
     return this.interaction.command;
+  }
+
+  subcommand() {
+    return this.interaction.options.getSubcommand();
   }
 
   async randomGuild() {
@@ -109,6 +112,14 @@ export class Context {
       bar += blank;
     }
     return bar;
+  }
+
+  async reply(data: any) {
+    if (this.interaction.replied || this.interaction.deferred) {
+      return await this.interaction.editReply(data);
+    } else {
+      return await this.interaction.reply(data);
+    }
   }
 }
 export interface SlashData {

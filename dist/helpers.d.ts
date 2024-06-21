@@ -1,4 +1,4 @@
-import { AutocompleteInteraction, TextBasedChannel, Client, Collection, CommandInteraction, Guild, SlashCommandBuilder, User, ActionRowBuilder, ButtonBuilder } from "discord.js";
+import { AutocompleteInteraction, TextBasedChannel, Client, Collection, ChatInputCommandInteraction, Guild, SlashCommandBuilder, User, ActionRowBuilder, ButtonBuilder } from "discord.js";
 import fetch from "node-fetch";
 export declare function getBotStats(client: Client): Promise<{
     guilds: number;
@@ -9,11 +9,26 @@ export declare function getBotStats(client: Client): Promise<{
     uptime: number;
 }>;
 export declare class Context {
-    interaction: CommandInteraction;
+    interaction: ChatInputCommandInteraction;
     command: SlashData;
     commands: Collection<string, SlashData>;
-    config: any;
-    constructor(interaction: CommandInteraction, command: SlashData, commands: Collection<string, SlashData>);
+    static Config: {
+        colors: {
+            main: number;
+        };
+        channels: {
+            ready: string;
+        };
+    };
+    config: {
+        colors: {
+            main: number;
+        };
+        channels: {
+            ready: string;
+        };
+    };
+    constructor(interaction: ChatInputCommandInteraction, command: SlashData, commands: Collection<string, SlashData>);
     get client(): Client<true>;
     get application(): import("discord.js").ClientApplication;
     get guild(): Guild;
@@ -22,6 +37,7 @@ export declare class Context {
     get applicationCommand(): import("discord.js").ApplicationCommand<{}> | import("discord.js").ApplicationCommand<{
         guild: import("discord.js").GuildResolvable;
     }> | null;
+    subcommand(): string;
     randomGuild(): Promise<Guild>;
     randomUser(): Promise<User>;
     fakelink(text: string): string;
@@ -29,6 +45,7 @@ export declare class Context {
     fetchText(url: string, options?: any): Promise<string>;
     fetchJSON(url: string, options?: any): Promise<any>;
     bar(current: number, max: number, size?: number, blank?: string, fill?: string): string;
+    reply(data: any): Promise<import("discord.js").Message<boolean>>;
 }
 export interface SlashData {
     data: SlashCommandBuilder;

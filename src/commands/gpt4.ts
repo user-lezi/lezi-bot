@@ -36,7 +36,7 @@ export default {
     ),
 
   async execute(ctx: Context) {
-    let subcommand = (ctx.interaction.options as any).getSubcommand();
+    let subcommand = ctx.subcommand();
     await ctx.interaction.deferReply();
     if (subcommand == "chat") {
       await chat(ctx);
@@ -45,12 +45,10 @@ export default {
 };
 
 async function chat(ctx: Context) {
-  let prompt = (ctx.interaction.options as any)
-    .getString("prompt")
-    ?.trim() as string;
+  let prompt = ctx.interaction.options.getString("prompt")?.trim() as string;
 
   if (!prompt) {
-    return await ctx.interaction.editReply({
+    return await ctx.reply({
       content: "Please provide a prompt to send to ChatGPT",
     });
   }
@@ -59,13 +57,13 @@ async function chat(ctx: Context) {
   let json = await ctx.fetchJSON(API + uriEncoded);
   time = performance.now() - time;
   if (json.status !== "true") {
-    return await ctx.interaction.editReply({
+    return await ctx.reply({
       content:
         "An error occurred while processing your request. Please try again later.",
     });
   }
 
-  let user_color = (ctx.interaction.member as GuildMember).displayColor;
+  let user_color = (ctx.interaction.member as GuildMember).displayColor || ctx.config.colors.main;
   let user_prompt_embed = new EmbedBuilder()
     .setColor(user_color)
     .setAuthor({
@@ -101,7 +99,7 @@ async function chat(ctx: Context) {
   }
 
   if (chunks.length == 1) {
-    return await ctx.interaction.editReply({
+    return await ctx.reply({
       embeds: [user_prompt_embed, embeds[0]],
       components: [new ActionRowBuilder<ButtonBuilder>().addComponents(btn)],
     });
@@ -126,7 +124,7 @@ async function chat(ctx: Context) {
   }
 
   let index = 0;
-  let message = await ctx.interaction.editReply({
+  let message = await ctx.reply({
     embeds: [embeds[index]],
     components: buttons(true, embeds.length == 1),
   });

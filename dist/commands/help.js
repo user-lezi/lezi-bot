@@ -25,7 +25,7 @@ exports.default = {
         .setAutocomplete(true))),
     async execute(ctx) {
         await ctx.interaction.deferReply().catch(() => { });
-        let sub = ctx.interaction.options.getSubcommand();
+        let sub = ctx.subcommand();
         if (sub === "commandlist") {
             await showCommandList(ctx);
         }
@@ -87,7 +87,7 @@ async function showCommandList(ctx) {
         .setLabel(`Requested By @${ctx.user.username}`)
         .setStyle(discord_js_1.ButtonStyle.Secondary)
         .setDisabled(true));
-    await ctx.interaction.editReply({
+    await ctx.reply({
         embeds: [embed],
         components: [row],
     });
@@ -107,7 +107,7 @@ async function showCommandInfo(ctx) {
                 }),
             ].join("\n")
             : "";
-        await ctx.interaction.editReply({
+        await ctx.reply({
             content: `Couldn't find ${(0, discord_js_1.inlineCode)(input)}\n${didyoumean}`,
         });
         return;
@@ -134,7 +134,7 @@ async function showCommandInfo(ctx) {
         .setURL(github(command.path.ts))
         .setLabel(`Source Code`)
         .setStyle(discord_js_1.ButtonStyle.Link));
-    await ctx.interaction.editReply({
+    await ctx.reply({
         embeds: [embed],
         components: [row],
     });

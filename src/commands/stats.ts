@@ -18,7 +18,7 @@ export default {
     .setName("stats")
     .setDescription("Shows the bot's statistics"),
   async execute(ctx: Context) {
-    const sent = await ctx.interaction.reply({
+    const sent = await ctx.reply({
       content: "*Fetching Statistics...*",
       fetchReply: true,
     });
@@ -86,7 +86,7 @@ export default {
         },
       );
 
-    ctx.interaction.editReply({
+    ctx.reply({
       embeds: [embed],
     });
   },

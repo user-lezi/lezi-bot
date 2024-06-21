@@ -28,19 +28,19 @@ class Context {
     interaction;
     command;
     commands;
-    config;
+    static Config = {
+        colors: {
+            main: 0xff8080,
+        },
+        channels: {
+            ready: "1252948790688612454",
+        },
+    };
+    config = Context.Config;
     constructor(interaction, command, commands) {
         this.interaction = interaction;
         this.command = command;
         this.commands = commands;
-        this.config = {
-            colors: {
-                main: 0xff8080,
-            },
-            channels: {
-                ready: "1252948790688612454",
-            },
-        };
     }
     get client() {
         return this.interaction.client;
@@ -59,6 +59,9 @@ class Context {
     }
     get applicationCommand() {
         return this.interaction.command;
+    }
+    subcommand() {
+        return this.interaction.options.getSubcommand();
     }
     async randomGuild() {
         let guilds = this.client.guilds.cache.map((x) => x);
@@ -95,6 +98,14 @@ class Context {
             bar += blank;
         }
         return bar;
+    }
+    async reply(data) {
+        if (this.interaction.replied || this.interaction.deferred) {
+            return await this.interaction.editReply(data);
+        }
+        else {
+            return await this.interaction.reply(data);
+        }
     }
 }
 exports.Context = Context;

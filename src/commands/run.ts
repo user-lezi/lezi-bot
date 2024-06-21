@@ -37,16 +37,12 @@ export default {
         .setRequired(false),
     ),
   async execute(ctx: Context) {
-    let code = (ctx.interaction.options as any).getString("code") as string;
-    let showConsole =
-      ((ctx.interaction.options as any).getBoolean("console") as boolean) ??
-      true;
-    let showCode =
-      ((ctx.interaction.options as any).getBoolean("showcode") as boolean) ??
-      true;
+    let code = ctx.interaction.options.getString("code") as string;
+    let showConsole = ctx.interaction.options.getBoolean("console") ?? true;
+    let showCode = ctx.interaction.options.getBoolean("showcode") ?? true;
 
     if (!code && code.length < 1) {
-      return await ctx.interaction.reply({
+      return await ctx.reply({
         content: "Please provide the code that you want to run",
         ephemeral: true,
       });
@@ -108,7 +104,7 @@ export default {
           );
         }
 
-        await ctx.interaction.editReply({
+        await ctx.reply({
           embeds,
         });
       },

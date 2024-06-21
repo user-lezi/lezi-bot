@@ -45,7 +45,7 @@ export default {
     ),
   async execute(ctx: Context) {
     await ctx.interaction.deferReply().catch(() => {});
-    let sub = (ctx.interaction.options as any).getSubcommand() as string;
+    let sub = ctx.subcommand();
     if (sub === "commandlist") {
       await showCommandList(ctx);
     } else if (sub === "command") {
@@ -138,7 +138,7 @@ async function showCommandList(ctx: Context) {
       .setDisabled(true),
   );
 
-  await ctx.interaction.editReply({
+  await ctx.reply({
     embeds: [embed],
     components: [row],
   });
@@ -167,7 +167,7 @@ async function showCommandInfo(ctx: Context) {
           }),
         ].join("\n")
       : "";
-    await ctx.interaction.editReply({
+    await ctx.reply({
       content: `Couldn't find ${inlineCode(input)}\n${didyoumean}`,
     });
     return;
@@ -210,7 +210,7 @@ async function showCommandInfo(ctx: Context) {
       .setStyle(ButtonStyle.Link),
   );
 
-  await ctx.interaction.editReply({
+  await ctx.reply({
     embeds: [embed],
     components: [row],
   });

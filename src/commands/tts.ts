@@ -40,13 +40,11 @@ export default {
   async execute(ctx: Context) {
     let s = performance.now();
     await ctx.interaction.deferReply();
-    let text = (ctx.interaction.options as any).getString("text") as string;
-    let lang =
-      ((ctx.interaction.options as any).getString("language") as string) ??
-      "en";
+    let text = ctx.interaction.options.getString("text") as string;
+    let lang = ctx.interaction.options.getString("language") ?? "en";
 
     if (!langs.find((e) => e.code === lang)) {
-      return ctx.interaction.editReply({
+      return ctx.reply({
         content: `Language ${bold(lang)} is not available.`,
       });
     }
@@ -62,7 +60,7 @@ export default {
       name: "tts-" + lang + ".mp3",
       description: text,
     });
-    await ctx.interaction.editReply({
+    await ctx.reply({
       content: `*Generated in ${((performance.now() - s) / 1000).toFixed(2)}s*`,
       files: [attachment],
     });

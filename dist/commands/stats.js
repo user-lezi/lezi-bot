@@ -15,7 +15,7 @@ exports.default = {
         .setName("stats")
         .setDescription("Shows the bot's statistics"),
     async execute(ctx) {
-        const sent = await ctx.interaction.reply({
+        const sent = await ctx.reply({
             content: "*Fetching Statistics...*",
             fetchReply: true,
         });
@@ -67,7 +67,7 @@ exports.default = {
                     `${(0, discord_js_1.bold)((0, discord_js_1.hyperlink)("Memory Usage", ctx.fakelink("Memory Usage")) + ":")} ${(0, discord_js_1.inlineCode)(`${umGb.toFixed(2)} GiB / ${tmGb.toFixed(2)} GiB (${usedPercent.toFixed(2)}%) [${fmGb.toFixed(2)} GiB free]`)}`,
                 ].join("\n"),
         });
-        ctx.interaction.editReply({
+        ctx.reply({
             embeds: [embed],
         });
     },

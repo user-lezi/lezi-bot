@@ -64,7 +64,7 @@ export default {
     ),
 
   async execute(ctx: Context) {
-    let sub = (ctx.interaction.options as any).getSubcommand();
+    let sub = ctx.subcommand();
     await ctx.interaction.deferReply();
     if (sub == "guild") {
       await searchGuild(ctx);
@@ -95,27 +95,22 @@ export default {
 
 async function searchGuild(ctx: Context) {
   let time = performance.now();
-  let q =
-    ((ctx.interaction.options as any).getString("query") as string) ??
-    ctx.guild.id;
+  let q = ctx.interaction.options.getString("query") ?? ctx.guild.id;
   if (isNaN(Number(q)))
-    return await ctx.interaction.editReply({
+    return await ctx.reply({
       content: "Please provide a valid guild id (Got " + q + ")",
     });
   let guild = await ctx.client.guilds.fetch(q);
   if (!guild)
-    return await ctx.interaction.editReply({
+    return await ctx.reply({
       content: "Couldn't find guild with id " + q,
     });
 
-  let showMemInfo =
-    (ctx.interaction.options as any).getBoolean("show-members") ?? true;
+  let showMemInfo = ctx.interaction.options.getBoolean("show-members") ?? true;
   let showChanInfo =
-    (ctx.interaction.options as any).getBoolean("show-channels") ?? true;
-  let showRoleInfo =
-    (ctx.interaction.options as any).getBoolean("show-roles") ?? true;
-  let showEmojiInfo =
-    (ctx.interaction.options as any).getBoolean("show-emojis") ?? true;
+    ctx.interaction.options.getBoolean("show-channels") ?? true;
+  let showRoleInfo = ctx.interaction.options.getBoolean("show-roles") ?? true;
+  let showEmojiInfo = ctx.interaction.options.getBoolean("show-emojis") ?? true;
 
   let embed = new EmbedBuilder()
     .setAuthor({
@@ -283,7 +278,7 @@ async function searchGuild(ctx: Context) {
       .setDisabled(true),
   );
 
-  await ctx.interaction.editReply({
+  await ctx.reply({
     embeds: [embed],
     components: [row],
   });

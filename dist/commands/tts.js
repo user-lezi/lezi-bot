@@ -25,10 +25,9 @@ exports.default = {
         let s = performance.now();
         await ctx.interaction.deferReply();
         let text = ctx.interaction.options.getString("text");
-        let lang = ctx.interaction.options.getString("language") ??
-            "en";
+        let lang = ctx.interaction.options.getString("language") ?? "en";
         if (!langs.find((e) => e.code === lang)) {
-            return ctx.interaction.editReply({
+            return ctx.reply({
                 content: `Language ${(0, discord_js_1.bold)(lang)} is not available.`,
             });
         }
@@ -40,7 +39,7 @@ exports.default = {
             name: "tts-" + lang + ".mp3",
             description: text,
         });
-        await ctx.interaction.editReply({
+        await ctx.reply({
             content: `*Generated in ${((performance.now() - s) / 1000).toFixed(2)}s*`,
             files: [attachment],
         });

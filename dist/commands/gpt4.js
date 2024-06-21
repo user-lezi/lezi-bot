@@ -20,7 +20,7 @@ exports.default = {
         .setDescription("The prompt to send to")
         .setRequired(true))),
     async execute(ctx) {
-        let subcommand = ctx.interaction.options.getSubcommand();
+        let subcommand = ctx.subcommand();
         await ctx.interaction.deferReply();
         if (subcommand == "chat") {
             await chat(ctx);
@@ -28,11 +28,9 @@ exports.default = {
     },
 };
 async function chat(ctx) {
-    let prompt = ctx.interaction.options
-        .getString("prompt")
-        ?.trim();
+    let prompt = ctx.interaction.options.getString("prompt")?.trim();
     if (!prompt) {
-        return await ctx.interaction.editReply({
+        return await ctx.reply({
             content: "Please provide a prompt to send to ChatGPT",
         });
     }
@@ -41,7 +39,7 @@ async function chat(ctx) {
     let json = await ctx.fetchJSON(API + uriEncoded);
     time = performance.now() - time;
     if (json.status !== "true") {
-        return await ctx.interaction.editReply({
+        return await ctx.reply({
             content: "An error occurred while processing your request. Please try again later.",
         });
     }
@@ -78,7 +76,7 @@ async function chat(ctx) {
         embeds.push(embed);
     }
     if (chunks.length == 1) {
-        return await ctx.interaction.editReply({
+        return await ctx.reply({
             embeds: [user_prompt_embed, embeds[0]],
             components: [new discord_js_1.ActionRowBuilder().addComponents(btn)],
         });
@@ -97,7 +95,7 @@ async function chat(ctx) {
         ];
     }
     let index = 0;
-    let message = await ctx.interaction.editReply({
+    let message = await ctx.reply({
         embeds: [embeds[index]],
         components: buttons(true, embeds.length == 1),
     });

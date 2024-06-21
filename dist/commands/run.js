@@ -25,12 +25,10 @@ exports.default = {
         .setRequired(false)),
     async execute(ctx) {
         let code = ctx.interaction.options.getString("code");
-        let showConsole = ctx.interaction.options.getBoolean("console") ??
-            true;
-        let showCode = ctx.interaction.options.getBoolean("showcode") ??
-            true;
+        let showConsole = ctx.interaction.options.getBoolean("console") ?? true;
+        let showCode = ctx.interaction.options.getBoolean("showcode") ?? true;
         if (!code && code.length < 1) {
-            return await ctx.interaction.reply({
+            return await ctx.reply({
                 content: "Please provide the code that you want to run",
                 ephemeral: true,
             });
@@ -76,7 +74,7 @@ exports.default = {
                     .setTitle("Input")
                     .setDescription((0, discord_js_1.codeBlock)("js", makeLines(code))));
             }
-            await ctx.interaction.editReply({
+            await ctx.reply({
                 embeds,
             });
         });

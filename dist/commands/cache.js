@@ -36,7 +36,7 @@ exports.default = {
         .setDescription("Show emojis information")
         .setRequired(false))),
     async execute(ctx) {
-        let sub = ctx.interaction.options.getSubcommand();
+        let sub = ctx.subcommand();
         await ctx.interaction.deferReply();
         if (sub == "guild") {
             await searchGuild(ctx);
@@ -60,15 +60,14 @@ exports.default = {
 };
 async function searchGuild(ctx) {
     let time = performance.now();
-    let q = ctx.interaction.options.getString("query") ??
-        ctx.guild.id;
+    let q = ctx.interaction.options.getString("query") ?? ctx.guild.id;
     if (isNaN(Number(q)))
-        return await ctx.interaction.editReply({
+        return await ctx.reply({
             content: "Please provide a valid guild id (Got " + q + ")",
         });
     let guild = await ctx.client.guilds.fetch(q);
     if (!guild)
-        return await ctx.interaction.editReply({
+        return await ctx.reply({
             content: "Couldn't find guild with id " + q,
         });
     let showMemInfo = ctx.interaction.options.getBoolean("show-members") ?? true;
@@ -211,7 +210,7 @@ async function searchGuild(ctx) {
         .setCustomId("fetch")
         .setStyle(discord_js_1.ButtonStyle.Secondary)
         .setDisabled(true));
-    await ctx.interaction.editReply({
+    await ctx.reply({
         embeds: [embed],
         components: [row],
     });

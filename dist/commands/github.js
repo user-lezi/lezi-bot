@@ -40,7 +40,7 @@ exports.default = {
         .setDescription("The repository of the github user")
         .setRequired(true))),
     async execute(ctx) {
-        let subcommand = ctx.interaction.options.getSubcommand();
+        let subcommand = ctx.subcommand();
         await ctx.interaction.deferReply();
         if (subcommand === "user") {
             await executeUser(ctx);
@@ -55,7 +55,7 @@ async function executeUser(ctx, _username) {
         ctx.interaction.options.getString("username"));
     let data = await ctx.fetchJSON(`https://api.github.com/users/${username}`);
     if (data.message == "Not Found") {
-        await ctx.interaction.editReply({
+        await ctx.reply({
             content: `Couldn't find ${(0, discord_js_1.bold)(username)}`,
         });
         return;
@@ -117,7 +117,7 @@ async function executeUser(ctx, _username) {
             .setStyle(discord_js_1.ButtonStyle.Primary)
             .setCustomId(`show_repos`)),
     ];
-    let msg = await ctx.interaction.editReply({
+    let msg = await ctx.reply({
         embeds: [ui_embed],
         components: [...row],
     });
@@ -286,7 +286,7 @@ async function executeRepository(ctx, _repository) {
         ctx.interaction.options.getString("repository"));
     let data = await ctx.fetchJSON(`https://api.github.com/repos/${repository}`);
     if (data.message == "Not Found") {
-        await ctx.interaction.editReply({
+        await ctx.reply({
             content: `Couldn't find ${(0, discord_js_1.bold)(repository)}`,
         });
         return;
@@ -340,7 +340,7 @@ async function executeRepository(ctx, _repository) {
             .setStyle(discord_js_1.ButtonStyle.Primary)
             .setCustomId(`show_forks`)),
     ];
-    let msg = await ctx.interaction.editReply({
+    let msg = await ctx.reply({
         embeds: [repo_embed],
         components: [...row],
     });

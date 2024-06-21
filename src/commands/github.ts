@@ -59,7 +59,7 @@ export default {
     ),
 
   async execute(ctx: Context) {
-    let subcommand = (ctx.interaction.options as any).getSubcommand();
+    let subcommand = ctx.subcommand();
     await ctx.interaction.deferReply();
     if (subcommand === "user") {
       await executeUser(ctx);
@@ -72,11 +72,11 @@ export default {
 
 async function executeUser(ctx: Context, _username?: string) {
   let username = (_username ??
-    (ctx.interaction.options as any).getString("username")) as string;
+    ctx.interaction.options.getString("username")) as string;
   let data = await ctx.fetchJSON(`https://api.github.com/users/${username}`);
 
   if (data.message == "Not Found") {
-    await ctx.interaction.editReply({
+    await ctx.reply({
       content: `Couldn't find ${bold(username)}`,
     });
     return;
@@ -153,7 +153,7 @@ async function executeUser(ctx: Context, _username?: string) {
     ),
   ];
 
-  let msg = await ctx.interaction.editReply({
+  let msg = await ctx.reply({
     embeds: [ui_embed],
     components: [...row],
   });
@@ -350,11 +350,11 @@ async function executeUser(ctx: Context, _username?: string) {
 
 async function executeRepository(ctx: Context, _repository?: string) {
   let repository = (_repository ??
-    (ctx.interaction.options as any).getString("repository")) as string;
+    ctx.interaction.options.getString("repository")) as string;
   let data = await ctx.fetchJSON(`https://api.github.com/repos/${repository}`);
 
   if (data.message == "Not Found") {
-    await ctx.interaction.editReply({
+    await ctx.reply({
       content: `Couldn't find ${bold(repository)}`,
     });
     return;
@@ -426,7 +426,7 @@ async function executeRepository(ctx: Context, _repository?: string) {
     ),
   ];
 
-  let msg = await ctx.interaction.editReply({
+  let msg = await ctx.reply({
     embeds: [repo_embed],
     components: [...row],
   });
