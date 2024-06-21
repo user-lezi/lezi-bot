@@ -84,6 +84,18 @@ export class Context {
     return random!.user;
   }
 
+  async userMutualGuilds(user: User) {
+    let guilds = this.client.guilds.cache;
+    let mutual = new Collection<string, Guild>();
+    for (let guild of guilds.values()) {
+      try {
+        let member = await guild.members.fetch(user);
+        if (member) mutual.set(guild.id, guild);
+      } catch {}
+    }
+    return mutual;
+  }
+
   fakelink(text: string) {
     text = encodeURIComponent(text);
     return `https://www.youtube.com/results?search_query=${text}`;

@@ -43,7 +43,8 @@ async function chat(ctx) {
             content: "An error occurred while processing your request. Please try again later.",
         });
     }
-    let user_color = ctx.interaction.member.displayColor;
+    let user_color = ctx.interaction.member.displayColor ||
+        ctx.config.colors.main;
     let user_prompt_embed = new discord_js_1.EmbedBuilder()
         .setColor(user_color)
         .setAuthor({

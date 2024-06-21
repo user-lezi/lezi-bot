@@ -40,6 +40,7 @@ export declare class Context {
     subcommand(): string;
     randomGuild(): Promise<Guild>;
     randomUser(): Promise<User>;
+    userMutualGuilds(user: User): Promise<Collection<string, Guild>>;
     fakelink(text: string): string;
     fetch(url: string, options?: any): Promise<fetch.Response>;
     fetchText(url: string, options?: any): Promise<string>;

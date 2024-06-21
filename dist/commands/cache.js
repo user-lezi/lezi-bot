@@ -6,6 +6,7 @@ exports.default = {
         category: "Cache",
         description: JSON.stringify({
             guild: `Fetches information from the guild found through the provided query. The list of guilds are the guilds where the bot is in.`,
+            user: `Fetches information from the user found through the provided query. The list of users are the users that are in the guilds where the bot is in.`,
         }),
     },
     data: new discord_js_1.SlashCommandBuilder()
@@ -34,12 +35,27 @@ exports.default = {
         .addBooleanOption((option) => option
         .setName("show-emojis")
         .setDescription("Show emojis information")
+        .setRequired(false)))
+        .addSubcommand((subcommand) => subcommand
+        .setName("user")
+        .setDescription("Search through users")
+        .addStringOption((option) => option
+        .setName("query")
+        .setDescription("The query to search for or just drop the user id.")
+        .setRequired(false)
+        .setAutocomplete(true))
+        .addBooleanOption((option) => option
+        .setName("show-mutual")
+        .setDescription("Show mutual guilds")
         .setRequired(false))),
     async execute(ctx) {
         let sub = ctx.subcommand();
         await ctx.interaction.deferReply();
         if (sub == "guild") {
             await searchGuild(ctx);
+        }
+        else if (sub == "user") {
+            await searchUser(ctx);
         }
     },
     async autocomplete(interaction) {
@@ -50,6 +66,16 @@ exports.default = {
             let choices = interaction.client.guilds.cache.map((g) => [
                 `${g.name} [${g.id}]`,
                 g.id,
+            ]);
+            let filtered = choices
+                .filter((choice) => choice[0].toLowerCase().includes(value.toLowerCase()))
+                .slice(0, 25);
+            await interaction.respond(filtered.map((choice) => ({ name: choice[0], value: choice[1] })));
+        }
+        else if (sub == "user") {
+            let choices = interaction.client.users.cache.map((u) => [
+                `${u.tag} [${u.id}]`,
+                u.id,
             ]);
             let filtered = choices
                 .filter((choice) => choice[0].toLowerCase().includes(value.toLowerCase()))
@@ -215,9 +241,70 @@ async function searchGuild(ctx) {
         components: [row],
     });
 }
+async function searchUser(ctx) {
+    let time = performance.now();
+    let q = ctx.interaction.options.getString("query") ?? ctx.user.id;
+    if (isNaN(Number(q)))
+        return await ctx.reply({
+            content: "Please provide a valid user id (Got " + q + ")",
+        });
+    let user;
+    try {
+        user = await ctx.client.users.fetch(q, { force: true });
+    }
+    catch {
+        await ctx.reply({
+            content: "Couldn't find user with id " + q,
+        });
+        return;
+    }
+    let showMutualGuilds = ctx.interaction.options.getBoolean("mutual-guilds") ?? true;
+    let embed = new discord_js_1.EmbedBuilder()
+        .setAuthor({
+        name: "@" + user.username,
+        iconURL: user.displayAvatarURL(),
+    })
+        .setThumbnail(user.displayAvatarURL())
+        .setColor(ctx.config.colors.main);
+    if (user.bannerURL())
+        embed.setImage(user.bannerURL());
+    embed.addFields({
+        name: "User Information",
+        value: [
+            `**Name:** **[${user.discriminator == "0" ? "@" + user.username : user.tag}](https://discord.com/users/${user.id})**`,
+            `**ID:** ${(0, discord_js_1.inlineCode)(user.id)}`,
+            `**Bot:** ${user.bot ? "Yes" : "No"}`,
+            `**Created:** <t:${Math.floor(user.createdTimestamp / 1000)}:F> [<t:${Math.floor(user.createdTimestamp / 1000)}:R>]`,
+        ]
+            .map((x) => "- " + x)
+            .join("\n"),
+    });
+    if (showMutualGuilds) {
+        let guilds = await ctx.userMutualGuilds(user);
+        embed.addFields({
+            name: "Mutual Guilds",
+            value: [
+                `**Count:** ${(0, discord_js_1.inlineCode)(guilds.size + "")}\n  - ${mention(Infinity, guilds)}`,
+            ]
+                .map((x) => "- " + x)
+                .join("\n"),
+        });
+    }
+    let row = new discord_js_1.ActionRowBuilder().addComponents(new discord_js_1.ButtonBuilder()
+        .setLabel(`Fetched in ${((performance.now() - time) / 1000).toFixed(2)}s`)
+        .setCustomId("fetch")
+        .setStyle(discord_js_1.ButtonStyle.Secondary)
+        .setDisabled(true));
+    await ctx.reply({
+        embeds: [embed],
+        components: [row],
+    });
+}
 function mention(n, col) {
+    if (n == Infinity)
+        n = col.size;
     if (col.size == 0)
-        return "";
+        return "*Nothing To Show*";
     if (col.size <= n) {
         return col
             .map((x) => s(x))
@@ -237,6 +324,8 @@ function mention(n, col) {
         }
         if (x.user instanceof discord_js_1.User)
             return s(x.user);
+        if (x instanceof discord_js_1.Guild)
+            return `**${x.name}**`;
         return x.toString();
     }
 }

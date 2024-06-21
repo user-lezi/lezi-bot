@@ -43,6 +43,31 @@
     ]
   },
   {
+    "name": "cache user",
+    "mainName": "cache",
+    "shortDescription": "Search through users",
+    "longDescription": "Fetches information from the user found through the provided query. The list of users are the users that are in the guilds where the bot is in.",
+    "category": "Cache",
+    "path": {
+      "js": "dist/commands/cache.js",
+      "ts": "src/commands/cache.ts"
+    },
+    "options": [
+      {
+        "name": "query",
+        "description": "The query to search for or just drop the user id.",
+        "type": 3,
+        "required": false
+      },
+      {
+        "name": "show-mutual",
+        "description": "Show mutual guilds",
+        "type": 5,
+        "required": false
+      }
+    ]
+  },
+  {
     "name": "github user",
     "mainName": "github",
     "shortDescription": "Gives the user info about the github user",

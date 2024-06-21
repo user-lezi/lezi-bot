@@ -63,7 +63,9 @@ async function chat(ctx: Context) {
     });
   }
 
-  let user_color = (ctx.interaction.member as GuildMember).displayColor || ctx.config.colors.main;
+  let user_color =
+    (ctx.interaction.member as GuildMember).displayColor ||
+    ctx.config.colors.main;
   let user_prompt_embed = new EmbedBuilder()
     .setColor(user_color)
     .setAuthor({

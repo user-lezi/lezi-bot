@@ -74,6 +74,19 @@ class Context {
         let random = users.filter((x) => !x.user.bot).random();
         return random.user;
     }
+    async userMutualGuilds(user) {
+        let guilds = this.client.guilds.cache;
+        let mutual = new discord_js_1.Collection();
+        for (let guild of guilds.values()) {
+            try {
+                let member = await guild.members.fetch(user);
+                if (member)
+                    mutual.set(guild.id, guild);
+            }
+            catch { }
+        }
+        return mutual;
+    }
     fakelink(text) {
         text = encodeURIComponent(text);
         return `https://www.youtube.com/results?search_query=${text}`;
