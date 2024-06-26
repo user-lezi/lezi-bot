@@ -1,7 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
 const util_1 = require("util");
+const commands_json_1 = __importDefault(require("../metadata/commands.json"));
 async function evalCommand(message) {
     let commandTrigger = "--eval";
     if (!message.content.startsWith(commandTrigger))
@@ -99,7 +103,37 @@ async function evalCommand(message) {
             .catch(() => { });
     });
 }
+async function mentioned(message) {
+    if (message.author.bot)
+        return;
+    let prefix = new RegExp(`^<@!?${message.client.user.id}>`);
+    if (!prefix.test(message.content))
+        return;
+    let splits = message.content.split(" ");
+    if (splits.length == 1) {
+        await message.client.application.commands.fetch();
+        let helpcommand = message.client.application.commands.cache.find((command) => command.name === "help");
+        return await message.reply({
+            content: `You can use my commands using slash commands.\n- Use </help commandlist:${helpcommand.id}> to see all my commands.`,
+        });
+    }
+    if (splits.length < 4) {
+        let name = splits[1] + (splits[2] ? " " + splits[2] : "");
+        let mainName = (name = name.toLowerCase()).split(" ")[0];
+        let command = commands_json_1.default.find((command) => command.name == name);
+        if (!command)
+            return;
+        await message.client.application.commands.fetch();
+        let cmd = message.client.application.commands.cache.find((c) => c.name === mainName);
+        if (!cmd)
+            return;
+        return await message.reply({
+            content: `Use this as a slash command.\n- </${name}:${cmd.id}>`,
+        });
+    }
+}
 async function default_1(message) {
+    await mentioned(message);
     let whitelistUsers = ["910837428862984213"];
     if (-1 === whitelistUsers.indexOf(message.author.id))
         return;

@@ -9,6 +9,7 @@ import {
   Message,
 } from "discord.js";
 import { inspect } from "util";
+import commands from "../metadata/commands.json";
 
 async function evalCommand(message: Message) {
   let commandTrigger = "--eval";
@@ -131,7 +132,43 @@ async function evalCommand(message: Message) {
   });
 }
 
+async function mentioned(message: Message) {
+  if (message.author.bot) return;
+  let prefix = new RegExp(`^<@!?${message.client.user.id}>`);
+
+  if (!prefix.test(message.content)) return;
+
+  let splits = message.content.split(" ");
+  if (splits.length == 1) {
+    await message.client.application.commands.fetch();
+    let helpcommand = message.client.application.commands.cache.find(
+      (command) => command.name === "help",
+    )!;
+    return await message.reply({
+      content: `You can use my commands using slash commands.\n- Use </help commandlist:${helpcommand.id}> to see all my commands.`,
+    });
+  }
+
+  if (splits.length < 4) {
+    let name = splits[1] + (splits[2] ? " " + splits[2] : "");
+    let mainName = (name = name.toLowerCase()).split(" ")[0];
+    let command = commands.find((command) => command.name == name);
+    if (!command) return;
+    await message.client.application.commands.fetch();
+    let cmd = message.client.application.commands.cache.find(
+      (c) => c.name === mainName,
+    );
+    if (!cmd) return;
+
+    return await message.reply({
+      content: `Use this as a slash command.\n- </${name}:${cmd.id}>`,
+    });
+  }
+}
+
 export default async function (message: Message) {
+  await mentioned(message);
+
   let whitelistUsers = ["910837428862984213"];
   if (-1 === whitelistUsers.indexOf(message.author.id)) return;
   await evalCommand(message);
