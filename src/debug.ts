@@ -101,6 +101,7 @@ async function evalCommand(message: Message) {
     if (interaction.customId == "delete") {
       return await evalMessage.delete().catch(() => {});
     }
+    collector.resetTimer();
     currentIndex =
       interaction.customId === "first"
         ? 0

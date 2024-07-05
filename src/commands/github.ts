@@ -75,7 +75,7 @@ async function executeUser(ctx: Context, _username?: string) {
     ctx.interaction.options.getString("username")) as string;
   let data = await ctx.fetchJSON(`https://api.github.com/users/${username}`);
 
-  if (data.message == "Not Found") {
+  if (data == null || data.message == "Not Found") {
     await ctx.reply({
       content: `Couldn't find ${bold(username)}`,
     });
@@ -353,7 +353,7 @@ async function executeRepository(ctx: Context, _repository?: string) {
     ctx.interaction.options.getString("repository")) as string;
   let data = await ctx.fetchJSON(`https://api.github.com/repos/${repository}`);
 
-  if (data.message == "Not Found") {
+  if (data == null || data.message == "Not Found") {
     await ctx.reply({
       content: `Couldn't find ${bold(repository)}`,
     });

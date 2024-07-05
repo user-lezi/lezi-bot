@@ -54,7 +54,7 @@ async function executeUser(ctx, _username) {
     let username = (_username ??
         ctx.interaction.options.getString("username"));
     let data = await ctx.fetchJSON(`https://api.github.com/users/${username}`);
-    if (data.message == "Not Found") {
+    if (data == null || data.message == "Not Found") {
         await ctx.reply({
             content: `Couldn't find ${(0, discord_js_1.bold)(username)}`,
         });
@@ -285,7 +285,7 @@ async function executeRepository(ctx, _repository) {
     let repository = (_repository ??
         ctx.interaction.options.getString("repository"));
     let data = await ctx.fetchJSON(`https://api.github.com/repos/${repository}`);
-    if (data.message == "Not Found") {
+    if (data == null || data.message == "Not Found") {
         await ctx.reply({
             content: `Couldn't find ${(0, discord_js_1.bold)(repository)}`,
         });

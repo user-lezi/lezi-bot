@@ -95,10 +95,10 @@ class Context {
         return await (0, node_fetch_1.default)(url, options);
     }
     async fetchText(url, options = {}) {
-        return await this.fetch(url, options).then((res) => res.text());
+        return await this.fetch(url, options).then((res) => res.ok ? res.text() : null);
     }
     async fetchJSON(url, options = {}) {
-        return await this.fetch(url, options).then((res) => res.json());
+        return await this.fetch(url, options).then((res) => res.ok ? res.json() : null);
     }
     bar(current, max, size = 10, blank = "◼️", fill = "⬜") {
         let bar = "";

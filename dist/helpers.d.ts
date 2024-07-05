@@ -43,7 +43,7 @@ export declare class Context {
     userMutualGuilds(user: User): Promise<Collection<string, Guild>>;
     fakelink(text: string): string;
     fetch(url: string, options?: any): Promise<fetch.Response>;
-    fetchText(url: string, options?: any): Promise<string>;
+    fetchText(url: string, options?: any): Promise<string | null>;
     fetchJSON(url: string, options?: any): Promise<any>;
     bar(current: number, max: number, size?: number, blank?: string, fill?: string): string;
     reply(data: any): Promise<import("discord.js").Message<boolean>>;

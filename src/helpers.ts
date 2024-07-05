@@ -106,11 +106,15 @@ export class Context {
   }
 
   async fetchText(url: string, options: any = {}) {
-    return await this.fetch(url, options).then((res) => res.text());
+    return await this.fetch(url, options).then((res) =>
+      res.ok ? res.text() : null,
+    );
   }
 
   async fetchJSON(url: string, options: any = {}) {
-    return await this.fetch(url, options).then((res) => res.json());
+    return await this.fetch(url, options).then((res) =>
+      res.ok ? res.json() : null,
+    );
   }
 
   bar(current: number, max: number, size = 10, blank = "◼️", fill = "⬜") {
