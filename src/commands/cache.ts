@@ -139,6 +139,13 @@ async function searchGuild(ctx: Context) {
       content: "Couldn't find guild with id " + q,
     });
 
+  let isUserInServer = await guild.members.fetch(ctx.user.id);
+  if (!isUserInServer) {
+    return await ctx.reply({
+      content: "You are not in the guild " + guild.name,
+    });
+  }
+
   let showMemInfo = ctx.interaction.options.getBoolean("show-members") ?? true;
   let showChanInfo =
     ctx.interaction.options.getBoolean("show-channels") ?? true;
