@@ -7,6 +7,7 @@ import {
   ButtonBuilder,
   ButtonStyle,
 } from "discord.js";
+
 import { Context, disableButtons } from "../helpers";
 
 let emojis = {
@@ -73,7 +74,14 @@ export default {
 async function executeUser(ctx: Context, _username?: string) {
   let username = (_username ??
     ctx.interaction.options.getString("username")) as string;
-  let data = await ctx.fetchJSON(`https://api.github.com/users/${username}`);
+  let data = await makeReq(ctx, `https://api.github.com/users/${username}`);
+
+  if (data == "ratelimited") {
+    await ctx.reply({
+      content: `Sorry. This command has been ratelimited.`,
+    });
+    return;
+  }
 
   if (data == null || data.message == "Not Found") {
     await ctx.reply({
@@ -177,10 +185,23 @@ async function executeUser(ctx: Context, _username?: string) {
         });
         return;
       }
-      i.deferUpdate().catch(() => {});
+      await i.deferUpdate().catch(() => {});
       if (current_embed !== "followers") {
         let apiUrl = data.followers_url;
-        let followers = await ctx.fetchJSON(apiUrl);
+        let followers = await makeReq(ctx, apiUrl);
+        if (followers == "ratelimited") {
+          await ctx.reply({
+            content: `Sorry. This command has been ratelimited.`,
+          });
+          return;
+        }
+        if (followers == null) {
+          await i.reply({
+            content: `Couldn't fetch followers of ${bold("@" + data.login)}`,
+            ephemeral: true,
+          });
+          return;
+        }
         let showOnly = 25;
         let flwers_embed = new EmbedBuilder()
           .setAuthor({
@@ -233,10 +254,23 @@ async function executeUser(ctx: Context, _username?: string) {
         });
         return;
       }
-      i.deferUpdate().catch(() => {});
+      await i.deferUpdate().catch(() => {});
       if (current_embed !== "followings") {
         let apiUrl = data.following_url.split("{")[0];
-        let followings = await ctx.fetchJSON(apiUrl);
+        let followings = await makeReq(ctx, apiUrl);
+        if (followings == "ratelimited") {
+          await ctx.reply({
+            content: `Sorry. This command has been ratelimited.`,
+          });
+          return;
+        }
+        if (followings == null) {
+          await i.reply({
+            content: `Couldn't fetch followings of ${bold("@" + data.login)}`,
+            ephemeral: true,
+          });
+          return;
+        }
         let showOnly = 25;
         let flwings_embed = new EmbedBuilder()
           .setAuthor({
@@ -288,9 +322,23 @@ async function executeUser(ctx: Context, _username?: string) {
         });
         return;
       }
+      await i.deferUpdate().catch(() => {});
       if (current_embed !== "repos") {
         let apiUrl = data.repos_url;
-        let repos = await ctx.fetchJSON(apiUrl);
+        let repos = await makeReq(ctx, apiUrl);
+        if (repos == "ratelimited") {
+          await ctx.reply({
+            content: `Sorry. This command has been ratelimited.`,
+          });
+          return;
+        }
+        if (repos == null) {
+          await i.reply({
+            content: `Couldn't fetch repositories of ${bold("@" + data.login)}`,
+            ephemeral: true,
+          });
+          return;
+        }
         let showOnly = 5;
         let repos_embed = new EmbedBuilder()
           .setAuthor({
@@ -351,7 +399,14 @@ async function executeUser(ctx: Context, _username?: string) {
 async function executeRepository(ctx: Context, _repository?: string) {
   let repository = (_repository ??
     ctx.interaction.options.getString("repository")) as string;
-  let data = await ctx.fetchJSON(`https://api.github.com/repos/${repository}`);
+  let data = await makeReq(ctx, `https://api.github.com/repos/${repository}`);
+
+  if (data == "ratelimited") {
+    await ctx.reply({
+      content: `Sorry. This command has been ratelimited.`,
+    });
+    return;
+  }
 
   if (data == null || data.message == "Not Found") {
     await ctx.reply({
@@ -450,10 +505,23 @@ async function executeRepository(ctx: Context, _repository?: string) {
         });
         return;
       }
-      i.deferUpdate().catch(() => {});
+      await i.deferUpdate().catch(() => {});
       if (current_embed !== "stars") {
         let apiUrl = data.stargazers_url;
-        let stars = await ctx.fetchJSON(apiUrl);
+        let stars = await makeReq(ctx, apiUrl);
+        if (stars == "ratelimited") {
+          await ctx.reply({
+            content: `Sorry. This command has been ratelimited.`,
+          });
+          return;
+        }
+        if (stars == null) {
+          await i.reply({
+            content: `Couldn't fetch stars`,
+            ephemeral: true,
+          });
+          return;
+        }
         let showOnly = 25;
         let stars_embed = new EmbedBuilder()
           .setAuthor({
@@ -502,10 +570,23 @@ async function executeRepository(ctx: Context, _repository?: string) {
         });
         return;
       }
-      i.deferUpdate().catch(() => {});
+      await i.deferUpdate().catch(() => {});
       if (current_embed !== "forks") {
         let apiUrl = data.forks_url;
-        let forks = await ctx.fetchJSON(apiUrl);
+        let forks = await makeReq(ctx, apiUrl);
+        if (forks == "ratelimited") {
+          await ctx.reply({
+            content: `Sorry. This command has been ratelimited.`,
+          });
+          return;
+        }
+        if (forks == null) {
+          await i.reply({
+            content: `Couldn't fetch forks`,
+            ephemeral: true,
+          });
+          return;
+        }
         let showOnly = 5;
         let forks_embed = new EmbedBuilder()
           .setAuthor({
@@ -557,4 +638,8 @@ async function executeRepository(ctx: Context, _repository?: string) {
       ],
     });
   });
+}
+
+async function makeReq(ctx: Context, url: string) {
+  return (await ctx.fetchJSON(url)) ?? "ratelimited";
 }
